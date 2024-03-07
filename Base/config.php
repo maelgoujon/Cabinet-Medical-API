@@ -1,7 +1,7 @@
 <?php
-$server = 'mysql-goujondardetphp.alwaysdata.net';
-$db = 'goujondardetphp_sql';
-$login = "344089";
+$server = 'localhost:3306';
+$db = 'PHP_Project';
+$login = "etu";
 $mdp = "\$iutinfo";
 
 // Connexion à la base de données

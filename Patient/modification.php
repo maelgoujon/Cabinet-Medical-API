@@ -27,10 +27,7 @@ include '../Base/header.php';
     <h1>Modification d'un patient</h1>
     <div class="container">
         <?php
-        $server = 'mysql-goujondardetphp.alwaysdata.net';
-        $db = 'goujondardetphp_sql';
-        $login = "344089";
-        $mdp = "\$iutinfo";
+        include '../Base/config.php';
 
         $validationMessage = '';
 
@@ -44,20 +41,22 @@ include '../Base/header.php';
                 $prenom = $_POST['prenom'];
                 $nom = $_POST['nom'];
                 $adresse = $_POST['adresse'];
+                $ville = $_POST['ville'];
+                $code_postal = $_POST['code_postal'];
                 $date_de_naissance = $_POST['date_de_naissance'];
                 $lieu_de_naissance = $_POST['lieu_de_naissance'];
                 $numero_securite_sociale = $_POST['numero_securite_sociale'];
                 $idMedecin = $_POST['idMedecin'];
 
                 // Requête SQL de mise à jour
-                $sql = "UPDATE patient SET Civilite=?, Prenom=?, Nom=?, Adresse=?, Date_de_naissance=?, Lieu_de_naissance=?, Numero_Securite_Sociale=?, idMedecin=? WHERE idPatient=?";
+                $sql = "UPDATE patient SET Civilite=?, Prenom=?, Nom=?, Adresse=?, Code_Postal=?, Ville=?, Date_de_naissance=?, Lieu_de_naissance=?, Numero_Securite_Sociale=?, idMedecin=? WHERE idPatient=?";
 
                 $stmt = $linkpdo->prepare($sql);
                 if ($stmt == false) {
                     die("Erreur prepare");
                 }
 
-                $test = $stmt->execute([$civilite, $prenom, $nom, $adresse, $date_de_naissance, $lieu_de_naissance, $numero_securite_sociale, $idMedecin, $idPatient]);
+                $test = $stmt->execute([$civilite, $prenom, $nom, $adresse, $date_de_naissance, $code_postal, $ville, $lieu_de_naissance, $numero_securite_sociale, $idMedecin, $idPatient]);
 
                 if ($test == false) {
                     $stmt->debugDumpParams();
@@ -117,6 +116,16 @@ include '../Base/header.php';
                     <div class="mb-3">
                         <label for="adresse" class="form-label">Adresse:</label>
                         <input type="text" name="adresse" value="<?php echo isset($patient['Adresse']) ? $patient['Adresse'] : ''; ?>" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="code_postal" class="form-label ">Code postal :</label>
+                        <input type="text" name="code_postal" value="<?php echo isset($patient['Code_postal']) ? $patient['Code_postal'] : ''; ?>" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ville" class="form-label">Ville :</label>
+                        <input type="text" name="ville" value="<?php echo isset($patient['Ville']) ? $patient['Ville'] : ''; ?>" class="form-control">
                     </div>
 
                     <div class="mb-3">

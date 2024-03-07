@@ -35,7 +35,7 @@ include '../Base/header.php';
                 include '../Base/config.php';
 
                 // Requête pour récupérer tous les patients avec le nom du médecin référent
-                $sql = "SELECT p.idPatient, p.Civilite, p.Prenom, p.Nom, p.Adresse, p.Date_de_naissance, p.Lieu_de_naissance, p.Numero_Securite_Sociale, m.Nom AS Nommedecin, m.Prenom AS Prenommedecin
+                $sql = "SELECT p.idPatient, p.Civilite, p.Prenom, p.Nom, p.Adresse, p.Code_postal, p.Ville, p.Date_de_naissance, p.Lieu_de_naissance, p.Numero_Securite_Sociale, m.Nom AS Nommedecin, m.Prenom AS Prenommedecin
                         FROM patient p
                         LEFT JOIN medecin m ON p.idMedecin = m.idMedecin";
 
@@ -49,6 +49,8 @@ include '../Base/header.php';
                         <th>Prénom</th>
                         <th>Nom</th>
                         <th>Adresse</th>
+                        <th>Ville</th>
+                        <th>Code postal</th>
                         <th>Date de Naissance</th>
                         <th>Lieu de Naissance</th>
                         <th>Numéro Sécurité Sociale</th>
@@ -63,6 +65,8 @@ include '../Base/header.php';
                                 <td>{$row['Prenom']}</td>
                                 <td>{$row['Nom']}</td>
                                 <td>{$row['Adresse']}</td>
+                                <td>{$row['Ville']}</td>
+                                <td>{$row['Code_postal']}</td>
                                 <td>" . date('d/m/Y', strtotime($row['Date_de_naissance'])) . "</td>
                                 <td>{$row['Lieu_de_naissance']}</td>
                                 <td>{$row['Numero_Securite_Sociale']}</td>

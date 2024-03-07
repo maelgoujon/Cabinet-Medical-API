@@ -32,10 +32,7 @@ include '../Base/header.php';
 
     
             <?php
-                $server = 'mysql-goujondardetphp.alwaysdata.net';
-                $db = 'goujondardetphp_sql';
-                $login = "344089";
-                $mdp = "\$iutinfo";
+                include '../Base/config.php';   // Inclusion de la connexion à la base de données
 
                 try {
                     $linkpdo = new PDO("mysql:host=$server;dbname=$db", $login, $mdp);
@@ -47,18 +44,20 @@ include '../Base/header.php';
                         $prenom = $_POST['prenom'];
                         $nom = $_POST['nom'];
                         $adresse = $_POST['adresse'];
+                        $code_postal = $_POST['code_postal'];
+                        $ville = $_POST['ville'];
                         $date_de_naissance = $_POST['date_de_naissance'];
                         $lieu_de_naissance = $_POST['lieu_de_naissance'];
                         $numero_securite_sociale = $_POST['numero_securite_sociale'];
                         $idMedecin = $_POST['idMedecin']; // Ajoutez le champ de selection du medecin referent
 
-                        $sql = "INSERT INTO patient (`Civilite`, `Prenom`, `Nom`, `Adresse`, `Date_de_naissance`, `Lieu_de_naissance`, `Numero_Securite_Sociale`, `idMedecin`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                        $sql = "INSERT INTO patient (`Civilite`, `Prenom`, `Nom`, `Adresse`, `Ville`, `Code_postal`, `Date_de_naissance`, `Lieu_de_naissance`, `Numero_Securite_Sociale`, `idMedecin`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                         $stmt = $linkpdo->prepare($sql);
                         if ($stmt == false) {
                             die("Erreur prepare");
                         }
-                        $test = $stmt->execute([$civilite, $prenom, $nom, $adresse, $date_de_naissance, $lieu_de_naissance, $numero_securite_sociale, $idMedecin]);
+                        $test = $stmt->execute([$civilite, $prenom, $nom, $adresse, $ville, $code_postal, $date_de_naissance, $lieu_de_naissance, $numero_securite_sociale, $idMedecin]);
 
                         if ($test == false) {
                             $stmt->debugDumpParams();
@@ -107,6 +106,16 @@ include '../Base/header.php';
             <div class="mb-3">
                 <label for="adresse" class="form-label">Adresse :</label>
                 <input type="text" id="adresse" name="adresse" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="ville" class="form-label">Ville :</label>
+                <input type="text" id="ville" name="ville" class="form-control" required>
+            </div>
+ 
+            <div class="mb-3">
+                <label for="code_postal" class="form-label">Code postal :</label>
+                <input type="text" id="code_postal" name="code_postal" class="form-control" required>
             </div>
 
             <div class="mb-3">
