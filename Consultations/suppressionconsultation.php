@@ -23,10 +23,7 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
     
     <?php
     // Connexion au serveur MySQL
-    $server = 'mysql-goujondardetphp.alwaysdata.net';
-    $db = 'goujondardetphp_sql';
-    $login = "344089";
-    $mdp = "\$iutinfo";
+    include '../Base/config.php';
 
     try {
         $linkpdo = new PDO("mysql:host=$server;dbname=$db", $login, $mdp);

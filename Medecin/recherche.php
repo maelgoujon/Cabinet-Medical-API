@@ -32,10 +32,7 @@ include '../Base/header.php';
 
     <?php
     // Connexion au serveur MySQL
-    $server = 'localhost';
-    $db = 'php_project';
-    $login = "etu";
-    $mdp = "\$iutinfo";
+    include '../Base/config.php';
 
     try {
         $linkpdo = new PDO("mysql:host=$server;dbname=$db", $login, $mdp);

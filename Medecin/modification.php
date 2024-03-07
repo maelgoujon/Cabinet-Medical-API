@@ -27,10 +27,7 @@
 <body>
     <div class="container">
         <?php
-        $server = 'mysql-goujondardetphp.alwaysdata.net';
-        $db = 'goujondardetphp_sql';
-        $login = "344089";
-        $mdp = "\$iutinfo";
+        include'../Base/config.php';
 
         $validationMessage = '';
 
