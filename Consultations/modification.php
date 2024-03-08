@@ -42,7 +42,7 @@
                 $duree = $_POST['duree'];
 
                 // Requête SQL de mise à jour
-                $sql = "UPDATE consultations SET DateConsultation=?, Heure=?, Duree=? WHERE idConsultation=?";
+                $sql = "UPDATE consultation SET DateConsultation=?, Heure=?, Duree=? WHERE idConsultation=?";
 
                 $stmt = $linkpdo->prepare($sql);
                 if ($stmt == false) {
@@ -69,7 +69,7 @@
                     $idConsultation = $_GET['id'];
 
                     // Requête SQL pour récupérer les informations du consultation
-                    $sql = "SELECT * FROM consultations WHERE idConsultation=?";
+                    $sql = "SELECT * FROM consultation WHERE idConsultation=?";
                     $stmt = $linkpdo->prepare($sql);
                     $stmt->execute([$idConsultation]);
                     $consultation = $stmt->fetch(PDO::FETCH_ASSOC);

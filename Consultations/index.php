@@ -62,7 +62,7 @@ include '../Base/header.php';
       $filtermedecin = isset($_GET['medecin']) ? $_GET['medecin'] : null;
 
       $sql = "SELECT c.idConsultation, c.DateConsultation, c.Heure, c.Duree, m.Nom AS Nommedecin, m.Prenom AS Prenommedecin, p.Nom AS Nompatient, p.Prenom AS Prenompatient
-              FROM consultations c
+              FROM consultation c
               JOIN medecin m ON c.idMedecin = m.idMedecin
               JOIN patient p ON c.idPatient = p.idPatient";
 
@@ -89,8 +89,13 @@ include '../Base/header.php';
               </thead>
               <tbody>";
 
-              while ($row = $result->fetch_assoc()) {
-                echo "<tr>
+              $result = $conn->query($sql);
+
+              if ($result === false) {
+                  die("Erreur : " . $conn->error);
+              } else {
+                  while ($row = $result->fetch_assoc()) {
+                    echo "<tr>
                         <td>" . date('d/m/Y', strtotime($row['DateConsultation'])) . "</td>
                         <td>{$row['Heure']}</td>
                         <td>{$row['Duree']}</td>
@@ -98,7 +103,8 @@ include '../Base/header.php';
                         <td>{$row['Nompatient']} {$row['Prenompatient']}</td>
                         <td><a href='modification.php?id={$row['idConsultation']}' class='btn btn-warning btn-sm'>Modifier</a> | <a href='suppression.php?id={$row['idConsultation']}' class='btn btn-danger btn-sm'>Supprimer</a></td>
                       </tr>";
-            }
+                  }
+              }
 
       echo "</tbody></table>";
 

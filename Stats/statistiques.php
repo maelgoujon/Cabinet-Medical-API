@@ -93,7 +93,7 @@
             m.Prenom, m.Nom,
             SEC_TO_TIME(SUM(c.Duree * 60)) AS DureeTotale
         FROM medecin m
-        LEFT JOIN consultations c ON m.idMedecin = c.idMedecin
+        LEFT JOIN consultation c ON m.idMedecin = c.idMedecin
         GROUP BY m.idMedecin, Civilitemedecin, m.Prenom, m.Nom";
 
     $result = $conn->query($sql);
@@ -110,12 +110,20 @@
             </thead>
             <tbody>";
 
-    while ($row = $result->fetch_assoc()) {
-        echo "<tr>
-            <td>{$row['Civilitemedecin']} {$row['Prenom']} {$row['Nom']}</td>
-            <td>{$row['DureeTotale']}</td>
-          </tr>";
-    }
+
+            $result = $conn->query($sql);
+
+            if ($result === false) {
+                die("Erreur : " . $conn->error);
+            } else {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>
+                        <td>{$row['Civilitemedecin']} {$row['Prenom']} {$row['Nom']}</td>
+                        <td>{$row['DureeTotale']}</td>
+                    </tr>";
+                }
+        }
+ 
 
     echo "</tbody></table></div>";
 
