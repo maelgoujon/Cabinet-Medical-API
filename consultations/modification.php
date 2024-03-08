@@ -1,29 +1,32 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-
 <?php
 
-      session_start();
+session_start();
 
-      // Vérifier si l'utilisateur est authentifié
-      if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
-          header("Location: /Base/login.php");
-          exit();
-      }
-      include '../Base/header.php';
+// Vérifier si l'utilisateur est authentifié
+if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
+    header("Location: /Base/login.php");
+    exit();
+}
+include '../Base/header.php';
 
-    ?>
+?>
+<!DOCTYPE HTML>
+<html>
+
+<head>
+
+
     <title>Modification d'une consultation</title>
     <!-- Ajoutez les liens vers les fichiers CSS Bootstrap ici -->
     <link href="../Base/bootstrap.min.css" rel="stylesheet" />
-    
+
     <link href="../Base/style.css" rel="stylesheet" />
     <!-- Ajoutez les liens vers les fichiers JavaScript Bootstrap et jQuery ici -->
     <script src="../Base/jquery-3.2.1.slim.min.js"></script>
     <script src="../Base/popper.min.js"></script>
     <script src="../Base/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
     <div class="container">
         <?php
@@ -60,7 +63,7 @@
                     $validationMessage = "Les informations de la consultation ont ete modifiees avec succes.";
                 } else {
                     $validationMessage = "Aucune modification effectuée pour le consultation.";
-                } 
+                }
 
             } else {
 
@@ -87,19 +90,22 @@
             <?php
             if ($stmt->rowCount() > 0) {
                 echo '<p style="color: green;">' . $validationMessage . '</p>';
-            ?>
+                ?>
                 <form method="post" action="modification.php">
                     <!-- Ajouter les valeurs par défaut dans les champs -->
-                    <input type="hidden" name="idConsultation" value="<?php echo isset($consultation['idConsultation']) ? $consultation['idConsultation'] : ''; ?>">
+                    <input type="hidden" name="idConsultation"
+                        value="<?php echo isset($consultation['idConsultation']) ? $consultation['idConsultation'] : ''; ?>">
 
                     <div class="mb-3">
                         <label for="dateConsultation" class="form-label">Date de la consultation :</label>
-                        <input type="date" name="dateConsultation" style="width: auto;" class="form-control form-control-sm" value="<?php echo isset($consultation['DateConsultation']) ? $consultation['DateConsultation'] : ''; ?>">
+                        <input type="date" name="dateConsultation" style="width: auto;" class="form-control form-control-sm"
+                            value="<?php echo isset($consultation['DateConsultation']) ? $consultation['DateConsultation'] : ''; ?>">
                     </div>
 
                     <div class="mb-3">
                         <label for="heure" class="form-label">Heure :</label>
-                        <input type="time" style="width: auto;" name="heure" class="form-control form-control-sm" value="<?php echo isset($consultation['Heure']) ? $consultation['Heure'] : ''; ?>">
+                        <input type="time" style="width: auto;" name="heure" class="form-control form-control-sm"
+                            value="<?php echo isset($consultation['Heure']) ? $consultation['Heure'] : ''; ?>">
                     </div>
 
                     <div class="mb-3">
@@ -123,14 +129,15 @@
                         </a>
                     </div>
                 </form>
-            <?php
+                <?php
             } else {
                 echo "Consultation non trouvée.";
             }
             ?>
 
         </form>
-        
+
     </div>
 </body>
+
 </html>

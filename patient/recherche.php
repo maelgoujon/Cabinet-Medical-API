@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-  <?php
+<?php
 
 session_start();
 
@@ -14,15 +11,20 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
 include '../Base/header.php';
 
 ?>
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Statistiques</title>
-    
-  </head>
 
-    <body>
+</head>
 
-    
+<body>
+
+
     <h1>Recherche de patient</h1>
     <form action="recherche.php" method="POST">
         <label for="keywords">Mots-cles :</label>
@@ -45,7 +47,7 @@ include '../Base/header.php';
         // Recuperation des mots-cles saisis dans le formulaire
         if (isset($_POST['keywords'])) {
             $keywords = explode(',', $_POST['keywords']); // Separe les mots-cles par des virgules
-
+    
             // Prepare les paramètres de la requête SQL pour chaque mot-cle
             $params = array();
 
@@ -106,4 +108,5 @@ include '../Base/header.php';
     <!-- Bouton pour revenir à la page "ajoutcontact.php" -->
     <a href="/../index.php" class="accueil-link">Accueil</a>
 </body>
+
 </html>

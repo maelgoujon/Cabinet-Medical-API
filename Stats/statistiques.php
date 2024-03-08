@@ -1,28 +1,29 @@
+<?php
+session_start();
+
+// Vérifier si l'utilisateur est authentifié
+if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
+    header("Location: /Base/login.php");
+    exit();
+}
+
+include '../Base/header.php';
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
-    <?php
-    session_start();
 
-    // Vérifier si l'utilisateur est authentifié
-    if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
-        header("Location: /Base/login.php");
-        exit();
-    }
-
-    include '../Base/header.php';
-    ?>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Statistiques</title>
     <!-- Ajoutez les liens vers les fichiers CSS Bootstrap ici -->
     <link href="../Base/bootstrap.min.css" rel="stylesheet" />
-    
+
     <!-- Ajoutez les liens vers les fichiers JavaScript Bootstrap et jQuery ici -->
     <script src="../Base/jquery-3.2.1.slim.min.js"></script>
     <script src="../Base/popper.min.js"></script>
-    <script src="../Base/bootstrap.bundle.min.js"></script> 
+    <script src="../Base/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -111,19 +112,19 @@
             <tbody>";
 
 
-            $result = $conn->query($sql);
+    $result = $conn->query($sql);
 
-            if ($result === false) {
-                die("Erreur : " . $conn->error);
-            } else {
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>
+    if ($result === false) {
+        die("Erreur : " . $conn->error);
+    } else {
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>
                         <td>{$row['Civilitemedecin']} {$row['Prenom']} {$row['Nom']}</td>
                         <td>{$row['DureeTotale']}</td>
                     </tr>";
-                }
         }
- 
+    }
+
 
     echo "</tbody></table></div>";
 

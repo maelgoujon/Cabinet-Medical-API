@@ -1,33 +1,36 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-
 <?php
 
-      session_start();
+session_start();
 
-      // Vérifier si l'utilisateur est authentifié
-      if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
-          header("Location: /Base/login.php");
-          exit();
-      }
-      include '../Base/header.php';
+// Vérifier si l'utilisateur est authentifié
+if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
+    header("Location: /Base/login.php");
+    exit();
+}
+include '../Base/header.php';
 
-    ?>
+?>
+<!DOCTYPE HTML>
+<html>
+
+<head>
+
+
     <title>Modification d'un medecin</title>
     <!-- Ajoutez les liens vers les fichiers CSS Bootstrap ici -->
     <link href="../Base/bootstrap.min.css" rel="stylesheet" />
-    
+
     <link href="../Base/style.css" rel="stylesheet" />
     <!-- Ajoutez les liens vers les fichiers JavaScript Bootstrap et jQuery ici -->
     <script src="../Base/jquery-3.2.1.slim.min.js"></script>
     <script src="../Base/popper.min.js"></script>
     <script src="../Base/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
     <div class="container">
         <?php
-        include'../Base/config.php';
+        include '../Base/config.php';
 
         $validationMessage = '';
 
@@ -60,7 +63,7 @@
                     $validationMessage = "Les informations du medecin ont ete modifiees avec succes.";
                 } else {
                     $validationMessage = "Aucune modification effectuée pour le medecin.";
-                } 
+                }
 
             } else {
 
@@ -89,7 +92,8 @@
                 ?>
                 <form method="post" action="modification.php">
                     <!-- Ajouter les valeurs par défaut dans les champs -->
-                    <input type="hidden" name="idMedecin" value="<?php echo isset($medecin['idMedecin']) ? $medecin['idMedecin'] : ''; ?>">
+                    <input type="hidden" name="idMedecin"
+                        value="<?php echo isset($medecin['idMedecin']) ? $medecin['idMedecin'] : ''; ?>">
 
                     <div class="mb-3">
                         <label for="civilite" class="form-label">Civilité:</label>
@@ -101,12 +105,14 @@
 
                     <div class="mb-3">
                         <label for="prenom" class="form-label">Prénom:</label>
-                        <input type="text" name="prenom" value="<?php echo isset($medecin['Prenom']) ? $medecin['Prenom'] : ''; ?>" class="form-control">
+                        <input type="text" name="prenom"
+                            value="<?php echo isset($medecin['Prenom']) ? $medecin['Prenom'] : ''; ?>" class="form-control">
                     </div>
 
                     <div class="mb-3">
                         <label for="nom" class="form-label">Nom:</label>
-                        <input type="text" name="nom" value="<?php echo isset($medecin['Nom']) ? $medecin['Nom'] : ''; ?>" class="form-control">
+                        <input type="text" name="nom" value="<?php echo isset($medecin['Nom']) ? $medecin['Nom'] : ''; ?>"
+                            class="form-control">
                     </div>
 
                     <button type="button" onclick="history.back()" class="btn btn-warning">Retour</button>
@@ -121,7 +127,8 @@
             }
             ?>
         </form>
-        
+
     </div>
 </body>
+
 </html>
