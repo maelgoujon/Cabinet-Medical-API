@@ -3,3 +3,4 @@ Dockerfile
 conf/apache.conf
 conf/php.ini
 conf/vhost.conf
+Base/config.php
