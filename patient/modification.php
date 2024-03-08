@@ -43,7 +43,7 @@ include '../Base/header.php';
                 $adresse = $_POST['adresse'];
                 $ville = $_POST['ville'];
                 $code_postal = $_POST['code_postal'];
-                $date_de_naissance = $_POST['date_de_naissance'];
+                $Date_de_naissance = $_POST['Date_de_naissance'];
                 $lieu_de_naissance = $_POST['lieu_de_naissance'];
                 $numero_securite_sociale = $_POST['numero_securite_sociale'];
                 $idMedecin = $_POST['idMedecin'];
@@ -56,7 +56,7 @@ include '../Base/header.php';
                     die("Erreur prepare");
                 }
 
-                $test = $stmt->execute([$civilite, $prenom, $nom, $adresse, $date_de_naissance, $code_postal, $ville, $lieu_de_naissance, $numero_securite_sociale, $idMedecin, $idPatient]);
+                $test = $stmt->execute([$civilite, $prenom, $nom, $adresse, $Date_de_naissance, $code_postal, $ville, $lieu_de_naissance, $numero_securite_sociale, $idMedecin, $idPatient]);
 
                 if ($test == false) {
                     $stmt->debugDumpParams();
@@ -129,8 +129,8 @@ include '../Base/header.php';
                     </div>
 
                     <div class="mb-3">
-                        <label for="date_de_naissance" class="form-label">Date de naissance :</label>
-                        <input type="date" name="date_de_naissance" value="<?php echo isset($patient['Date_de_naissance']) ? $patient['Date_de_naissance'] : ''; ?>" class="form-control">
+                        <label for="Date_de_naissance" class="form-label">Date de naissance :</label>
+                        <input type="date" name="Date_de_naissance" value="<?php echo isset($patient['Date_de_naissance']) ? date('Y-m-d', strtotime($patient['Date_de_naissance'])) : ''; ?>" class="form-control">
                     </div>
 
                     <div class="mb-3">
