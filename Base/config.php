@@ -2,7 +2,7 @@
 $server = '172.17.0.1:3306';
 $db = 'PHP_Project';
 $login = "etu";
-$mdp = "\$iutinfo";
+$mdp = "coucou";
 
 // Connexion à la base de données
 $conn = new mysqli($server, $login, $mdp, $db);

@@ -3,10 +3,13 @@
 session_start();
 
 // Vérifier si l'utilisateur est authentifié
+//ToDo: A décommenter pour activer l'authentification
+/*
 if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
     header("Location: /Base/login.php");
     exit();
 }
+*/
 
 include '../Base/header.php';
 
