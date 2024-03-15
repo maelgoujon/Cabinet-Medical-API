@@ -9,7 +9,7 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
     exit();
 }*/
 
-include 'Base/header_accueil.php';
+include 'Base/header.php';
 //on affiche le jwt s'il existe et "pas de jwt" sinon
 if (isset($_SESSION["jwt"])) {
     echo "<p class='h3 text-primary font-weight-bold text-center'>Votre jeton JWT : " . $_SESSION["jwt"] . "</p>";
