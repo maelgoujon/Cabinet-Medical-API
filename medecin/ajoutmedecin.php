@@ -5,11 +5,7 @@
 
 session_start();
 
-// Vérifier si l'utilisateur est authentifié
-if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
-    header("Location: /Base/login.php");
-    exit();
-}
+
 
 include '../Base/header.php';
 
@@ -39,10 +35,12 @@ include '../Base/header.php';
             $linkpdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+                $data = json_decode(file_get_contents('php://input'), true);
                 // Recuperation des donnees du formulaire HTML
-                $civilite = $_POST['civilite'];
-                $prenom = $_POST['prenom'];
-                $nom = $_POST['nom'];
+                $civilite = $data['civilite'];
+                $prenom = $data['prenom'];
+                $nom = $data['nom'];
 
                 $sql = "INSERT INTO medecin (`Civilite`, `Prenom`, `Nom`) VALUES (?, ?, ?)";
 
