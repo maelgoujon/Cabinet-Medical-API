@@ -1,8 +1,8 @@
 <?php
-$server = 'localhost:3306';
+$server = '172.17.0.1:3306';
 $db = 'PHP_Project';
 $login = "etu";
-$mdp = "\$iutinfo";
+$mdp = "coucou";
 
 // Connexion à la base de données
 $conn = new mysqli($server, $login, $mdp, $db);
@@ -11,4 +11,5 @@ $conn = new mysqli($server, $login, $mdp, $db);
 if ($conn->connect_error) {
     die("La connexion a échoué : " . $conn->connect_error);
 }
+
 ?>

@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-  <?php
+<?php
 
 session_start();
 
@@ -10,6 +7,11 @@ session_start();
 include '../Base/header.php';
 
 ?>
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ajouter un médecin</title>
@@ -20,15 +22,15 @@ include '../Base/header.php';
     <script src="../Base/jquery-3.2.1.slim.min.js"></script>
     <script src="../Base/popper.min.js"></script>
     <script src="../Base/bootstrap.bundle.min.js"></script>
-    
-  </head>
 
-    <div>
+</head>
+
+<div>
 
     <div class="container mt-5">
         <h1 class="mb-4">Ajout d'un médecin</h1>
         <?php
-        include'../Base/config.php';
+        include '../Base/config.php';
 
         try {
             $linkpdo = new PDO("mysql:host=$server;dbname=$db", $login, $mdp);
@@ -72,35 +74,36 @@ include '../Base/header.php';
         }
         ?>
 
-            <!-- Formulaire HTML pour saisir un nouveau medecin -->
-            <form method="post" action="ajoutmedecin.php">
-                <div class="mb-3">
-                    <label for="civilite" class="form-label">Civilité :</label>
-                    <select id="civilite" name="civilite" class="form-select" required>
-                        <option value="1">Monsieur</option>
-                        <option value="2">Madame</option>
-                    </select>
-                </div>
+        <!-- Formulaire HTML pour saisir un nouveau medecin -->
+        <form method="post" action="ajoutmedecin.php">
+            <div class="mb-3">
+                <label for="civilite" class="form-label">Civilité :</label>
+                <select id="civilite" name="civilite" class="form-select" required>
+                    <option value="1">Monsieur</option>
+                    <option value="2">Madame</option>
+                </select>
+            </div>
 
-                <div class="mb-3">
-                    <label for="nom" class="form-label">Nom :</label>
-                    <input type="text" id="nom" name="nom" class="form-control" required>
-                </div>
+            <div class="mb-3">
+                <label for="nom" class="form-label">Nom :</label>
+                <input type="text" id="nom" name="nom" class="form-control" required>
+            </div>
 
-                <div class="mb-3">
-                    <label for="prenom" class="form-label">Prénom :</label>
-                    <input type="text" id="prenom" name="prenom" class="form-control" required>
-                </div>
+            <div class="mb-3">
+                <label for="prenom" class="form-label">Prénom :</label>
+                <input type="text" id="prenom" name="prenom" class="form-control" required>
+            </div>
 
-                <div class="mb-3">
-                    <input type="submit" value="Ajouter le médecin" class="btn btn-primary">
-                    <input type="button" value="Retour" onclick="history.back()" class="btn btn-warning">
-                    <a href="../medecin/">
-                        <button type="button"  class="btn btn-danger">Accueil Médecin</button>
-                    </a>
-                </div>
-            </form>
-        </div>
+            <div class="mb-3">
+                <input type="submit" value="Ajouter le médecin" class="btn btn-primary">
+                <input type="button" value="Retour" onclick="history.back()" class="btn btn-warning">
+                <a href="../medecin/">
+                    <button type="button" class="btn btn-danger">Accueil Médecin</button>
+                </a>
+            </div>
+        </form>
+    </div>
 </div>
 </body>
+
 </html>

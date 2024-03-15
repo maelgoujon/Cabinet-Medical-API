@@ -1,6 +1,3 @@
-<!DOCTYPE HTML>
-<html>
-<head>
 <?php
 
 session_start();
@@ -9,16 +6,22 @@ session_start();
 
 include '../Base/header.php';
 ?>
+<!DOCTYPE HTML>
+<html>
+
+<head>
+
     <title>Modification d'un patient</title>
     <!-- Ajoutez les liens vers les fichiers CSS Bootstrap ici -->
     <link href="../Base/bootstrap.min.css" rel="stylesheet" />
-    
+
     <link href="../Base/style.css" rel="stylesheet" />
     <!-- Ajoutez les liens vers les fichiers JavaScript Bootstrap et jQuery ici -->
     <script src="../Base/jquery-3.2.1.slim.min.js"></script>
     <script src="../Base/popper.min.js"></script>
     <script src="../Base/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
     <h1>Modification d'un patient</h1>
     <div class="container">
@@ -63,7 +66,7 @@ include '../Base/header.php';
                     $validationMessage = "Les informations du patient ont ete modifiees avec succes.";
                 } else {
                     $validationMessage = "Aucune modification effectuée pour le patient.";
-                } 
+                }
 
             } else {
 
@@ -89,7 +92,8 @@ include '../Base/header.php';
                 echo '<p class="text-success">' . $validationMessage . '</p>';
                 ?>
                 <form>
-                    <input type="hidden" name="idPatient" value="<?php echo isset($patient['idPatient']) ? $patient['idPatient'] : ''; ?>">
+                    <input type="hidden" name="idPatient"
+                        value="<?php echo isset($patient['idPatient']) ? $patient['idPatient'] : ''; ?>">
 
                     <div class="mb-3">
                         <label for="civilite" class="form-label">Civilité:</label>
@@ -101,42 +105,55 @@ include '../Base/header.php';
 
                     <div class="mb-3">
                         <label for="prenom" class="form-label">Prénom:</label>
-                        <input type="text" name="prenom" value="<?php echo isset($patient['Prenom']) ? $patient['Prenom'] : ''; ?>" class="form-control">
+                        <input type="text" name="prenom"
+                            value="<?php echo isset($patient['Prenom']) ? $patient['Prenom'] : ''; ?>" class="form-control">
                     </div>
 
                     <div class="mb-3">
                         <label for="nom" class="form-label">Nom:</label>
-                        <input type="text" name="nom" value="<?php echo isset($patient['Nom']) ? $patient['Nom'] : ''; ?>" class="form-control">
+                        <input type="text" name="nom" value="<?php echo isset($patient['Nom']) ? $patient['Nom'] : ''; ?>"
+                            class="form-control">
                     </div>
 
                     <div class="mb-3">
                         <label for="adresse" class="form-label">Adresse:</label>
-                        <input type="text" name="adresse" value="<?php echo isset($patient['Adresse']) ? $patient['Adresse'] : ''; ?>" class="form-control">
+                        <input type="text" name="adresse"
+                            value="<?php echo isset($patient['Adresse']) ? $patient['Adresse'] : ''; ?>"
+                            class="form-control">
                     </div>
 
                     <div class="mb-3">
                         <label for="code_postal" class="form-label ">Code postal :</label>
-                        <input type="text" name="code_postal" value="<?php echo isset($patient['Code_postal']) ? $patient['Code_postal'] : ''; ?>" class="form-control">
+                        <input type="text" name="code_postal"
+                            value="<?php echo isset($patient['Code_postal']) ? $patient['Code_postal'] : ''; ?>"
+                            class="form-control">
                     </div>
 
                     <div class="mb-3">
                         <label for="ville" class="form-label">Ville :</label>
-                        <input type="text" name="ville" value="<?php echo isset($patient['Ville']) ? $patient['Ville'] : ''; ?>" class="form-control">
+                        <input type="text" name="ville"
+                            value="<?php echo isset($patient['Ville']) ? $patient['Ville'] : ''; ?>" class="form-control">
                     </div>
 
                     <div class="mb-3">
                         <label for="Date_de_naissance" class="form-label">Date de naissance :</label>
-                        <input type="date" name="Date_de_naissance" value="<?php echo isset($patient['Date_de_naissance']) ? date('Y-m-d', strtotime($patient['Date_de_naissance'])) : ''; ?>" class="form-control">
+                        <input type="date" name="Date_de_naissance"
+                            value="<?php echo isset($patient['Date_de_naissance']) ? date('Y-m-d', strtotime($patient['Date_de_naissance'])) : ''; ?>"
+                            class="form-control">
                     </div>
 
                     <div class="mb-3">
                         <label for="lieu_de_naissance" class="form-label">Lieu de naissance :</label>
-                        <input type="text" name="lieu_de_naissance" value="<?php echo isset($patient['Lieu_de_naissance']) ? $patient['Lieu_de_naissance'] : ''; ?>" class="form-control">
+                        <input type="text" name="lieu_de_naissance"
+                            value="<?php echo isset($patient['Lieu_de_naissance']) ? $patient['Lieu_de_naissance'] : ''; ?>"
+                            class="form-control">
                     </div>
 
                     <div class="mb-3">
                         <label for="numero_securite_sociale" class="form-label">Numéro de sécurité sociale :</label>
-                        <input type="text" name="numero_securite_sociale" value="<?php echo isset($patient['Numero_Securite_Sociale']) ? $patient['Numero_Securite_Sociale'] : ''; ?>" class="form-control">
+                        <input type="text" name="numero_securite_sociale"
+                            value="<?php echo isset($patient['Numero_Securite_Sociale']) ? $patient['Numero_Securite_Sociale'] : ''; ?>"
+                            class="form-control">
                     </div>
 
                     <div class="mb-3">
@@ -157,21 +174,23 @@ include '../Base/header.php';
                         </select>
                     </div>
 
-                    <input type="hidden" name="idPatient" value="<?php echo isset($patient['idPatient']) ? $patient['idPatient'] : ''; ?>">
+                    <input type="hidden" name="idPatient"
+                        value="<?php echo isset($patient['idPatient']) ? $patient['idPatient'] : ''; ?>">
                     <button type="button" onclick="history.back()" class="btn btn-danger">Retour</button>
                     <button type="submit" class="btn btn-primary">Modifier le patient</button>
                     <a href="../patient">
                         <button type="button" class="btn btn-warning">Accueil patient</button>
                     </a>
                 </form>
-            <?php
+                <?php
             } else {
                 echo "patient non trouvé.";
             }
             ?>
         </form>
 
-        
+
     </div>
 </body>
+
 </html>
