@@ -86,8 +86,8 @@ include '../Base/header.php';
         <div class="mb-3">
             <label for="civilite" class="form-label">Civilité :</label>
             <select id="idPatient" name="civilite" class="form-select" required>
-                <option value="1">Monsieur</option>
-                <option value="2">Madame</option>
+                <option value="M.">Monsieur</option>
+                <option value="Mme.">Madame</option>
             </select>
         </div>
 

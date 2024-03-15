@@ -54,9 +54,8 @@ include '../Base/header.php';
                     </tr>";
 
                     while ($row = $result->fetch_assoc()) {
-                        $civilite = ($row['Civilite'] == 1) ? 'Monsieur' : 'Madame';
                         echo "<tr>
-                                <td>{$civilite}</td>
+                                <td>{$row['Civilite']}</td>
                                 <td>{$row['Prenom']}</td>
                                 <td>{$row['Nom']}</td>
                                 <td>{$row['Adresse']}</td>
