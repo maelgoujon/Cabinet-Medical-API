@@ -4,11 +4,12 @@ require 'jwt_utils.php';
 
 function get_jwt($login, $password)
 {
-    $config = require 'config.php';
-
+    // return the value of $tab in API_Auth/config.php
+    $config = require '../API_Auth/config.php';
     if (!is_array($config) || !isset($config['jwt_secret'])) {
-        return "Invalid configuration";
+        return "Invalid config";
     }
+
 
     $secret = $config['jwt_secret'];
 
@@ -17,31 +18,30 @@ function get_jwt($login, $password)
         "password" => "password1234!"
     ];
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $data = json_decode(file_get_contents('php://input'), true);
 
-        if (!is_array($data) || !isset($data['login']) || !isset($data['mdp'])) {
-            return "Invalid data";
-        }
-
-        $login = $data['login'];
-        $password = $data['mdp'];
-
-        if ($login == $record['login'] && $password == $record['password']) {
-            $payload = array(
-                "login" => $login,
-                "password" => $password,
-                "exp" => time() + 3600
-            );
-
-            $headers = apache_request_headers();
-
-            $jwt = generate_jwt($headers, $payload, $secret);
-            return $jwt;
-        } else {
-            return "Invalid credentials";
-        }
-    } else {
-        return "Invalid request method";
+    // si l'utilisateur est deja authentifié
+    if (isset($_SESSION["jwt"])) {
+        return $_SESSION["jwt"];
     }
+
+
+
+    if ($login == $record['login'] && $password == $record['password']) {
+        $payload = array(
+            "login" => $login,
+            "password" => $password,
+            "exp" => time() + 3600
+        );
+
+        $headers = array(
+            "alg" => "HS256",
+            "typ" => "JWT"
+        );
+
+        $jwt = generate_jwt($headers, $payload, $secret);
+        return $jwt;
+    } else {
+        return false;
+    }
+
 }

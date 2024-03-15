@@ -1,9 +1,8 @@
 <?php
 
-$config = [
+$tab = [
     'jwt_secret' => 'secret'
 ];
 
-var_dump($config);
-
+return $tab;
 ?>

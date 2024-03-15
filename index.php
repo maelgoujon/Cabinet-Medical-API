@@ -10,6 +10,12 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
 }*/
 
 include 'Base/header_accueil.php';
+//on affiche le jwt s'il existe et "pas de jwt" sinon
+if (isset($_SESSION["jwt"])) {
+    echo "<p class='h3 text-primary font-weight-bold text-center'>Votre jeton JWT : " . $_SESSION["jwt"] . "</p>";
+} else {
+    echo "<p class='h3 text-primary font-weight-bold text-center'>Pas de jeton JWT</p>";
+}
 ?>
 
 <!DOCTYPE html>
@@ -32,12 +38,13 @@ include 'Base/header_accueil.php';
 <body>
     <div class="container">
         <br>
-        <p class="h3 text-primary font-weight-bold text-center">Bienvenue sur l'espace de gestion de vôtre cabinet médical !</p>
+        <p class="h3 text-primary font-weight-bold text-center">Bienvenue sur l'espace de gestion de vôtre cabinet
+            médical !</p>
         <br>
 
         <div class="container row shadow-lg">
             <div class="col-md-3">
-                <img src="Images/patient.png" alt="Logo" width="150" height="150"/>
+                <img src="Images/patient.png" alt="Logo" width="150" height="150" />
             </div>
             <div class="col-md-9">
                 <h3>Liste des patients</h3>
@@ -52,7 +59,7 @@ include 'Base/header_accueil.php';
 
         <div class="container row shadow-lg">
             <div class="col-md-3">
-                <img src="Images/docteur.png" alt="Logo" width="150" height="150"/>
+                <img src="Images/docteur.png" alt="Logo" width="150" height="150" />
             </div>
             <div class="col-md-9">
                 <h3>Liste des médecins</h3>
@@ -67,7 +74,7 @@ include 'Base/header_accueil.php';
 
         <div class="container row shadow-lg">
             <div class="col-md-3">
-                <img src="Images/consult.png" alt="Logo" width="150" height="150"/>
+                <img src="Images/consult.png" alt="Logo" width="150" height="150" />
             </div>
             <div class="col-md-9">
                 <h3>Voir vos consultaions</h3>
@@ -82,7 +89,7 @@ include 'Base/header_accueil.php';
 
         <div class="container row shadow-lg">
             <div class="col-md-3">
-                <img src="Images/stat.png" alt="Logo" width="150" height="150"/>
+                <img src="Images/stat.png" alt="Logo" width="150" height="150" />
             </div>
             <div class="col-md-9">
                 <h3>Statistiques</h3>
@@ -98,4 +105,3 @@ include 'Base/header_accueil.php';
 </body>
 
 </html>
-

@@ -11,15 +11,19 @@ if (isset($_SESSION["jwt"])) {
 // si l'utilisateur n'a pas de JWT alors on en genere un avec getjwt.php
 else {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        var_dump($_POST);
         $login = $_POST["login"];
-        $password = $_POST["password"];
-        $jwt = get_jwt($login, $password);
+        $mdp = $_POST["mdp"];
+        $jwt = get_jwt("secretaire1", "password1234!");
+        echo "coucou " . $login . "\n";
+        echo $jwt;
         if ($jwt) {
             $_SESSION["jwt"] = $jwt;
+            $error_message = "teteutget";
             header("Location: ../index.php");
             exit;
         } else {
-            $error_message = "Nom d'utilisateur ou mot de passe incorrect";
+            $error_message = "cocuoucoucou";
         }
     }
 }
@@ -66,6 +70,8 @@ else {
             </form>
         </div>
     </div>
+
+
 
 </body>
 
