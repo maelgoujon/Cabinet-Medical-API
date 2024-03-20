@@ -2,12 +2,6 @@
 
 session_start();
 
-// Vérifier si l'utilisateur est authentifié
-if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
-    header("Location: /Base/login.php");
-    exit();
-}
-
 include '../Base/header.php';
 ?>
 <!DOCTYPE html>
