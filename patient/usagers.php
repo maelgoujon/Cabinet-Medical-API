@@ -21,6 +21,8 @@ function getSinglePatient($id)
 header('Content-Type: application/json');
 
 
+
+
 /******************* GET *******************/
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Requête SQL pour récupérer la liste des patients
@@ -28,9 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $getPatientsQuery->execute();
     $patients = $getPatientsQuery->fetchAll(PDO::FETCH_ASSOC);
 
-    if (isset ($_SERVER['PATH_INFO'])) {
-        $patientId = ltrim($_SERVER['PATH_INFO'], '/');
-        $singlePatient = getSinglePatient($patientId);
+    $id = isset ($_SERVER['PATH_INFO']) ? ltrim($_SERVER['PATH_INFO'], '/') : null; // Récupération de l'id depuis l'url
+
+    if ($id) {
+        $singlePatient = getSinglePatient($id);
 
         if (!$singlePatient) {
             http_response_code(404);
@@ -40,6 +43,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
     } else {
         echo json_encode($patients);
+    }
+}
+/******************* POST *******************/
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $linkpdo = new PDO("mysql:host=$server;dbname=$db", $login, $mdp);
+    $linkpdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Recuperation des donnees du formulaire HTML
+    $data = json_decode(file_get_contents('php://input'), true);
+
+    $civilite = $data['civilite'];
+    $prenom = $data['prenom'];
+    $nom = $data['nom'];
+    $adresse = $data['adresse'];
+    $code_postal = $data['code_postal'];
+    $ville = $data['ville'];
+    $date_nais = $data['date_nais'];
+    $lieu_nais = $data['lieu_nais'];
+    $num_secu = $data['num_secu'];
+    $id_medecin = $data['id_medecin'];
+
+    $sql = "INSERT INTO patient (`Civilite`, `Prenom`, `Nom`, `Adresse`, `Ville`, `Code_postal`, `Date_de_naissance`, `Lieu_de_naissance`, `Numero_Securite_Sociale`, `idMedecin`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    $stmt = $linkpdo->prepare($sql);
+
+    $test = $stmt->execute([$civilite, $prenom, $nom, $adresse, $ville, $code_postal, $date_nais, $lieu_nais, $num_secu, $id_medecin]);
+
+
+    // Verification de l'insertion
+    if ($stmt->rowCount() > 0) {
+        echo json_encode(array("status" => "success", "status_code" => 200, "status_message" => "Le patient a ete ajoute avec succes."));
+    } else {
+        echo json_encode(array("status" => "error", "status_code" => 400, "status_message" => "Une erreur s'est produite lors de l'ajout du patient."));
     }
 }
 /******************* PATCH *******************/
