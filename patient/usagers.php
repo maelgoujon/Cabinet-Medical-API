@@ -6,11 +6,6 @@ try {
     echo "Connection failed: " . $e->getMessage();
 }
 
-// Requête SQL pour récupérer la liste des patients
-$getPatientsQuery = $pdo->prepare("SELECT * FROM patient");
-$getPatientsQuery->execute();
-$patients = $getPatientsQuery->fetchAll(PDO::FETCH_ASSOC);
-
 // Requête SQL pour récupérer un seul patient
 function getSinglePatient($id)
 {
@@ -23,9 +18,16 @@ function getSinglePatient($id)
     return $singlePatient;
 }
 
-// API pour récupérer la liste des patients ou un seul patient
 header('Content-Type: application/json');
+
+
+/******************* GET *******************/
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Requête SQL pour récupérer la liste des patients
+    $getPatientsQuery = $pdo->prepare("SELECT * FROM patient");
+    $getPatientsQuery->execute();
+    $patients = $getPatientsQuery->fetchAll(PDO::FETCH_ASSOC);
+
     if (isset ($_SERVER['PATH_INFO'])) {
         $patientId = ltrim($_SERVER['PATH_INFO'], '/');
         $singlePatient = getSinglePatient($patientId);
@@ -40,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         echo json_encode($patients);
     }
 }
+/******************* PATCH *******************/
 if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
     $data = json_decode(file_get_contents('php://input'), true);
     $patientId = ltrim($_SERVER['PATH_INFO'], '/');
@@ -77,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
 } else {
     http_response_code(405);
 }
+/******************* DELETE *******************/
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     $patientId = ltrim($_SERVER['PATH_INFO'], '/');
     $singlePatient = getSinglePatient($patientId);
