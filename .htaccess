@@ -1,6 +1,14 @@
 Options +FollowSymlinks
 RewriteEngine on
-# rediriger les requêtes /id vers le fichier usagers.php
-RewriteRule ^usagers/([0-9]+)/?$ patient/usagers.php/$1 [L]
-# rediriger les requêtes vers le fichier usagers.php
-RewriteRule ^usagers/?$ patient/usagers.php [L]
+
+### USAGERS/PATIENTS ###
+# rediriger /usagers/id vers le fichier usagers.php
+RewriteRule API_AppMed/usagers/([0-9]+)/?$ /API_AppMed/usagers.php/$1 [L]
+# rediriger /usagers vers le fichier usagers.php
+RewriteRule API_AppMed/usagers/?$ /API_AppMed/usagers.php [L]
+
+### CONSULTATIONS ###
+# rediriger /consultations/id vers le fichier consultations.php
+RewriteRule API_AppMed/consultations/([0-9]+)/?$ /API_AppMed/consultations.php/$1 [L]
+# rediriger /consultations vers le fichier consultations.php
+RewriteRule API_AppMed/consultations/?$ /API_AppMed/consultations.php [L]
