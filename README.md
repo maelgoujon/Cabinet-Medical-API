@@ -18,3 +18,5 @@ Enregistrement des médecins -->
   - Attribution des rendez-vous en fonction de la disponibilité des professionnels.
   - Authentification et Autorisation
   - Système d'authentification sécurisé pour les utilisateurs
+
+docker-compose up --build -d

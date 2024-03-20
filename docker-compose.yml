@@ -14,7 +14,7 @@ services:
   web:
     build: .
     ports:
-      - "8080:80"
+      - "5050:80"
     depends_on:
       - db
     volumes:

@@ -1,6 +1,6 @@
 Options +FollowSymlinks
 RewriteEngine on
 # rediriger les requêtes /id vers le fichier usagers.php
-RewriteRule ^patient/([0-9]+)/?$ patient/usagers.php/$1 [L]
+RewriteRule ^usagers/([0-9]+)/?$ patient/usagers.php/$1 [L]
 # rediriger les requêtes vers le fichier usagers.php
-RewriteRule ^patient/?$ patient/usagers.php [L]
+RewriteRule ^usagers/?$ patient/usagers.php [L]
