@@ -1,12 +1,17 @@
-### Amélioration du précédent projet :
+# Amélioration du précédent projet :
+Ajouts :
 - API pour les données
 - API pour l'authentification JWT
-- mise en place de docker
+- Container Docker
+
+## API pour les données :
+
+## API pour l'authentification JWT :
 
 ## Docker :
-``docker-compose up --build -d``
+`docker-compose up --build -d`
 
-### Gestion - Cabinet Médical
+## Gestion - Cabinet Médical
 
 Description du Projet :
 Le projet de gestion de cabinet médical en PHP vise à créer un système complet de gestion pour les cabinets médicaux, facilitant la gestion des patients, des rendez-vous et des professionnels de la santé.
