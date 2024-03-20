@@ -77,3 +77,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
 } else {
     http_response_code(405);
 }
+if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+    $patientId = ltrim($_SERVER['PATH_INFO'], '/');
+    $singlePatient = getSinglePatient($patientId);
+
+    if (!$singlePatient) {
+        http_response_code(404);
+        echo json_encode(['message' => 'Aucun patient trouvé']);
+    } else {
+        $deletePatientQuery = $pdo->prepare("DELETE FROM patient WHERE idPatient = ?");
+        $deletePatientQuery->execute([$patientId]);
+
+        if ($deletePatientQuery->errorCode() != 0) {
+            $errors = $deletePatientQuery->errorInfo();
+            echo json_encode(['error' => $errors]);
+        } else {
+            echo json_encode(['message' => 'Patient supprimé']);
+        }
+    }
+} else {
+    http_response_code(405);
+}
