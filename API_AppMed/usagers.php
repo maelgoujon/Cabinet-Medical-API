@@ -1,3 +1,4 @@
+// TODO: Ajouter les codes retour HTTP
 <?php
 include '../Base/config.php';
 try {
