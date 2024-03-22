@@ -1,0 +1,41 @@
+<?php
+require '../API_Auth/check_token.php';
+include '../Base/config.php';
+try {
+    $pdo = new PDO("mysql:host=$server;dbname=$db", $login, $mdp);
+} catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+}
+
+// Requête pour récupérer la répartition des usagers selon leur sexe et leur âge
+$repartitionUsagers = "SELECT 
+CASE WHEN Civilite = 'Mr.' THEN 'Homme'
+    WHEN Civilite = 'Mme.' THEN 'Femme'
+    ELSE 'Autre' END AS Sexe,
+SUM(CASE WHEN YEAR(CURDATE()) - YEAR(STR_TO_DATE(Date_de_naissance, '%d/%m/%Y')) < 25 THEN 1 ELSE 0 END) AS MoinsDe25,
+SUM(CASE WHEN YEAR(CURDATE()) - YEAR(STR_TO_DATE(Date_de_naissance, '%d/%m/%Y')) BETWEEN 25 AND 50 THEN 1 ELSE 0 END) AS Entre25Et50,
+SUM(CASE WHEN YEAR(CURDATE()) - YEAR(STR_TO_DATE(Date_de_naissance, '%d/%m/%Y')) > 50 THEN 1 ELSE 0 END) AS PlusDe50
+FROM patient
+GROUP BY Civilite";
+
+
+
+header('Content-Type: application/json');
+
+
+
+
+/******************* GET *******************/
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
+    $getRepartitionUsagersQuery = $pdo->prepare($repartitionUsagers);
+    $getRepartitionUsagersQuery->execute();
+    $repartitionUsagers = $getRepartitionUsagersQuery->fetchAll(PDO::FETCH_ASSOC);
+
+    http_response_code(200);
+    echo json_encode($repartitionUsagers);
+
+} else {
+    http_response_code(405);
+    echo json_encode(array("message" => "Method Not Allowed"));
+}

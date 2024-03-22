@@ -9,12 +9,12 @@ CREATE TABLE `medecin` (
 insert into
   `medecin` (`Civilite`, `Nom`, `Prenom`, `idMedecin`)
 values
-  ('1', 'dardet', 'lenny', 1);
+  ('Mme.', 'dardet', 'lenny', 1);
 
 insert into
   `medecin` (`Civilite`, `Nom`, `Prenom`, `idMedecin`)
 values
-  ('1', 'Goujon', 'Mael', 8);
+  ('Mr.', 'Goujon', 'Mael', 8);
 
 CREATE TABLE `patient` (
   `idPatient` int(11) NOT NULL AUTO_INCREMENT,

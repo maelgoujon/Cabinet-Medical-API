@@ -1,4 +1,3 @@
-// TODO: Ajouter les codes retour HTTP
 <?php
 include '../Base/config.php';
 try {
@@ -40,9 +39,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             http_response_code(404);
             echo json_encode(['message' => 'Aucun patient trouvé']);
         } else {
+            http_response_code(200);
             echo json_encode($singlePatient);
         }
     } else {
+        http_response_code(200);
         echo json_encode($patients);
     }
 }
@@ -73,8 +74,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Verification de l'insertion
     if ($stmt->rowCount() > 0) {
+        http_response_code(201);
         echo json_encode(array("status" => "success", "status_code" => 200, "status_message" => "Le patient a ete ajoute avec succes."));
     } else {
+        http_response_code(400);
         echo json_encode(array("status" => "error", "status_code" => 400, "status_message" => "Une erreur s'est produite lors de l'ajout du patient."));
     }
 }
@@ -107,9 +110,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
         $updatePatientQuery->execute($values);
 
         if ($updatePatientQuery->errorCode() != 0) {
-            $errors = $updatePatientQuery->errorInfo();
-            echo json_encode(['error' => $errors]);
+            http_response_code(500);
         } else {
+            http_response_code(200);
             echo json_encode(['message' => 'Patient modifié']);
         }
     }
@@ -129,9 +132,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
         $deletePatientQuery->execute([$patientId]);
 
         if ($deletePatientQuery->errorCode() != 0) {
-            $errors = $deletePatientQuery->errorInfo();
-            echo json_encode(['error' => $errors]);
+            http_response_code(500);
         } else {
+            http_response_code(200);
             echo json_encode(['message' => 'Patient supprimé']);
         }
     }

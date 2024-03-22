@@ -28,14 +28,14 @@ include '../Base/header.php';
 
     // Requête pour récupérer la répartition des usagers selon leur sexe et leur âge
     $sql = "SELECT 
-            CASE WHEN Civilite = '1' THEN 'Homme'
-                WHEN Civilite = '2' THEN 'Femme'
-                ELSE 'Autre' END AS Sexe,
-            SUM(CASE WHEN YEAR(CURDATE()) - YEAR(Date_de_naissance) < 25 THEN 1 ELSE 0 END) AS MoinsDe25,
-            SUM(CASE WHEN YEAR(CURDATE()) - YEAR(Date_de_naissance) BETWEEN 25 AND 50 THEN 1 ELSE 0 END) AS Entre25Et50,
-            SUM(CASE WHEN YEAR(CURDATE()) - YEAR(Date_de_naissance) > 50 THEN 1 ELSE 0 END) AS PlusDe50
-        FROM patient
-        GROUP BY Civilite";
+    CASE WHEN Civilite = 'Mr.' THEN 'Homme'
+        WHEN Civilite = 'Mme.' THEN 'Femme'
+        ELSE 'Autre' END AS Sexe,
+    SUM(CASE WHEN YEAR(CURDATE()) - YEAR(STR_TO_DATE(Date_de_naissance, '%d/%m/%Y')) < 25 THEN 1 ELSE 0 END) AS MoinsDe25,
+    SUM(CASE WHEN YEAR(CURDATE()) - YEAR(STR_TO_DATE(Date_de_naissance, '%d/%m/%Y')) BETWEEN 25 AND 50 THEN 1 ELSE 0 END) AS Entre25Et50,
+    SUM(CASE WHEN YEAR(CURDATE()) - YEAR(STR_TO_DATE(Date_de_naissance, '%d/%m/%Y')) > 50 THEN 1 ELSE 0 END) AS PlusDe50
+FROM patient
+GROUP BY Civilite";
 
     $result = $conn->query($sql);
 
@@ -82,8 +82,8 @@ include '../Base/header.php';
 
     // Requête pour récupérer la durée totale des consultations par médecin
     $sql = "SELECT m.idMedecin, 
-            CASE WHEN m.Civilite = '1' THEN 'Monsieur' 
-                    WHEN m.Civilite = '2' THEN 'Madame' 
+            CASE WHEN m.Civilite = 'Mr.' THEN 'Monsieur' 
+                    WHEN m.Civilite = 'Mme.' THEN 'Madame' 
                     ELSE 'Autre' END AS Civilitemedecin,
             m.Prenom, m.Nom,
             SEC_TO_TIME(SUM(c.Duree * 60)) AS DureeTotale
@@ -109,7 +109,7 @@ include '../Base/header.php';
     $result = $conn->query($sql);
 
     if ($result === false) {
-        die("Erreur : " . $conn->error);
+        die ("Erreur : " . $conn->error);
     } else {
         while ($row = $result->fetch_assoc()) {
             echo "<tr>
