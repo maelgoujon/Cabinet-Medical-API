@@ -1,4 +1,5 @@
 <?php
+require '../API_Auth/check_token.php';
 include '../Base/config.php';
 try {
     $pdo = new PDO("mysql:host=$server;dbname=$db", $login, $mdp);
@@ -27,15 +28,20 @@ header('Content-Type: application/json');
 
 /******************* GET *******************/
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Vérifier le token JWT
+    if (check_token()) {
+        $getDureeMedecinQuery = $pdo->prepare($dureeMedecin);
+        $getDureeMedecinQuery->execute();
+        $dureeMedecin = $getDureeMedecinQuery->fetchAll(PDO::FETCH_ASSOC);
 
-    $getDureeMedecinQuery = $pdo->prepare($dureeMedecin);
-    $getDureeMedecinQuery->execute();
-    $dureeMedecin = $getDureeMedecinQuery->fetchAll(PDO::FETCH_ASSOC);
+        http_response_code(200);
+        echo json_encode($dureeMedecin);
+    } else {
+        http_response_code(401);
+        echo json_encode(array("message" => "Unauthorized"));
+    }
 
-    http_response_code(200);
-    echo json_encode($dureeMedecin);
-
-} 
+}
 
 // method not allowed
 else {

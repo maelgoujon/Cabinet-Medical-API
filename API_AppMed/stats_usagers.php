@@ -18,23 +18,22 @@ SUM(CASE WHEN YEAR(CURDATE()) - YEAR(STR_TO_DATE(Date_de_naissance, '%d/%m/%Y'))
 FROM patient
 GROUP BY Civilite";
 
-
-
 header('Content-Type: application/json');
-
-
-
 
 /******************* GET *******************/
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Vérifier le token JWT
+    if (check_token()) {
+        $getRepartitionUsagersQuery = $pdo->prepare($repartitionUsagers);
+        $getRepartitionUsagersQuery->execute();
+        $repartitionUsagers = $getRepartitionUsagersQuery->fetchAll(PDO::FETCH_ASSOC);
 
-    $getRepartitionUsagersQuery = $pdo->prepare($repartitionUsagers);
-    $getRepartitionUsagersQuery->execute();
-    $repartitionUsagers = $getRepartitionUsagersQuery->fetchAll(PDO::FETCH_ASSOC);
-
-    http_response_code(200);
-    echo json_encode($repartitionUsagers);
-
+        http_response_code(200);
+        echo json_encode($repartitionUsagers);
+    } else {
+        http_response_code(401);
+        echo json_encode(array("message" => "Unauthorized"));
+    }
 } else {
     http_response_code(405);
     echo json_encode(array("message" => "Method Not Allowed"));
