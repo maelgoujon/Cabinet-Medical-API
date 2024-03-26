@@ -18,3 +18,9 @@ RewriteRule API_AppMed/consultations/?$ /API_AppMed/consultations.php [L]
 RewriteRule API_AppMed/stats/medecins/?$ /API_AppMed/stats_medecin.php [L]
 # rediriger /stats/usagers vers le fichier stats_usagers.php
 RewriteRule API_AppMed/stats/usagers/?$ /API_AppMed/stats_usagers.php [L]
+
+### MEDECINS ###
+# rediriger /medecins/id vers le fichier medecins.php
+RewriteRule API_AppMed/medecins/([0-9]+)/?$ /API_AppMed/medecins.php/$1 [L]
+# rediriger /medecins vers le fichier medecins.php
+RewriteRule API_AppMed/medecins/?$ /API_AppMed/medecins.php [L]

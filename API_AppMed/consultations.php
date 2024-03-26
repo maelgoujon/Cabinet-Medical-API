@@ -19,11 +19,6 @@ function getSingleConsult($id)
     return $singleConsult;
 }
 
-header('Content-Type: application/json');
-
-
-
-
 /******************* GET *******************/
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Vérifier le token JWT
@@ -49,9 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             http_response_code(200);
             echo json_encode($Consults);
         }
-    } else {
-        http_response_code(401);
-        echo json_encode(array("message" => "Unauthorized"));
     }
 }
 /******************* POST *******************/
@@ -148,23 +140,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
 }
 /******************* DELETE *******************/
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-    $ConsultId = ltrim($_SERVER['PATH_INFO'], '/');
-    $singleConsult = getSingleConsult($ConsultId);
+    // Vérifier le token JWT
+    if (check_token()) {
+        $ConsultId = ltrim($_SERVER['PATH_INFO'], '/');
+        $singleConsult = getSingleConsult($ConsultId);
 
-    if (!$singleConsult) {
-        http_response_code(404);
-        echo json_encode(['message' => 'Aucune consultation trouvée']);
-    } else {
-        $deleteConsultQuery = $pdo->prepare("DELETE FROM consultation WHERE idConsultation = ?");
-        $deleteConsultQuery->execute([$ConsultId]);
-
-        if ($deleteConsultQuery->errorCode() != 0) {
-            $errors = $deleteConsultQuery->errorInfo();
-            http_response_code(500);
-            echo json_encode(['error' => $errors]);
+        if (!$singleConsult) {
+            http_response_code(404);
+            echo json_encode(['message' => 'Aucune consultation trouvée']);
         } else {
-            http_response_code(200);
-            echo json_encode(['message' => 'Consultation supprimée']);
+            $deleteConsultQuery = $pdo->prepare("DELETE FROM consultation WHERE idConsultation = ?");
+            $deleteConsultQuery->execute([$ConsultId]);
+
+            if ($deleteConsultQuery->errorCode() != 0) {
+                $errors = $deleteConsultQuery->errorInfo();
+                http_response_code(500);
+                echo json_encode(['error' => $errors]);
+            } else {
+                http_response_code(200);
+                echo json_encode(['message' => 'Consultation supprimée']);
+            }
         }
     }
 } else {
