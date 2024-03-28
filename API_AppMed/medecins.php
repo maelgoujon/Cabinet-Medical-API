@@ -7,16 +7,16 @@ try {
     echo "Connection failed: " . $e->getMessage();
 }
 
-// Requête SQL pour récupérer un seul patient
-function getSinglePatient($id)
+// Requête SQL pour récupérer un seul medecin
+function getSingleMedecin($id)
 {
     global $pdo;
 
-    $singlePatientQuery = $pdo->prepare("SELECT * FROM patient WHERE idPatient = ?");
-    $singlePatientQuery->execute([$id]);
-    $singlePatient = $singlePatientQuery->fetch(PDO::FETCH_ASSOC);
+    $singlemedecinQuery = $pdo->prepare("SELECT * FROM medecin WHERE idMedecin = ?");
+    $singlemedecinQuery->execute([$id]);
+    $singlemedecin = $singlemedecinQuery->fetch(PDO::FETCH_ASSOC);
 
-    return $singlePatient;
+    return $singlemedecin;
 }
 
 header('Content-Type: application/json');
@@ -28,26 +28,26 @@ header('Content-Type: application/json');
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Vérifier le token JWT
     if (check_token()) {
-        // Requête SQL pour récupérer la liste des patients
-        $getPatientsQuery = $pdo->prepare("SELECT * FROM patient");
-        $getPatientsQuery->execute();
-        $patients = $getPatientsQuery->fetchAll(PDO::FETCH_ASSOC);
+        // Requête SQL pour récupérer la liste des medecins
+        $getmedecinsQuery = $pdo->prepare("SELECT * FROM medecin");
+        $getmedecinsQuery->execute();
+        $medecins = $getmedecinsQuery->fetchAll(PDO::FETCH_ASSOC);
 
         $id = isset ($_SERVER['PATH_INFO']) ? ltrim($_SERVER['PATH_INFO'], '/') : null; // Récupération de l'id depuis l'url
 
         if ($id) {
-            $singlePatient = getSinglePatient($id);
+            $singlemedecin = getSinglemedecin($id);
 
-            if (!$singlePatient) {
+            if (!$singlemedecin) {
                 http_response_code(404);
-                echo json_encode(['message' => 'Aucun patient trouvé']);
+                echo json_encode(['message' => 'Aucun medecin trouvé']);
             } else {
                 http_response_code(200);
-                echo json_encode($singlePatient);
+                echo json_encode($singlemedecin);
             }
         } else {
             http_response_code(200);
-            echo json_encode($patients);
+            echo json_encode($medecins);
         }
     }
 }
@@ -60,31 +60,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Recuperation des donnees du formulaire HTML
         $data = json_decode(file_get_contents('php://input'), true);
 
+        //(`Civilite`, `Nom`, `Prenom`)
         $civilite = $data['civilite'];
         $prenom = $data['prenom'];
         $nom = $data['nom'];
-        $adresse = $data['adresse'];
-        $code_postal = $data['code_postal'];
-        $ville = $data['ville'];
-        $date_nais = $data['date_nais'];
-        $lieu_nais = $data['lieu_nais'];
-        $num_secu = $data['num_secu'];
-        $id_medecin = $data['id_medecin'];
 
-        $sql = "INSERT INTO patient (`Civilite`, `Prenom`, `Nom`, `Adresse`, `Ville`, `Code_postal`, `Date_de_naissance`, `Lieu_de_naissance`, `Numero_Securite_Sociale`, `idMedecin`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO medecin (Civilite, Nom, Prenom) VALUES (?, ?, ?)";
 
         $stmt = $linkpdo->prepare($sql);
 
-        $test = $stmt->execute([$civilite, $prenom, $nom, $adresse, $ville, $code_postal, $date_nais, $lieu_nais, $num_secu, $id_medecin]);
+        $test = $stmt->execute([$civilite, $nom, $prenom]);
 
 
         // Verification de l'insertion
         if ($stmt->rowCount() > 0) {
             http_response_code(201);
-            echo json_encode(array("status" => "success", "status_code" => 200, "status_message" => "Le patient a ete ajoute avec succes."));
+            echo json_encode(array("status" => "success", "status_code" => 200, "status_message" => "Le medecin a ete ajoute avec succes."));
         } else {
             http_response_code(400);
-            echo json_encode(array("status" => "error", "status_code" => 400, "status_message" => "Une erreur s'est produite lors de l'ajout du patient."));
+            echo json_encode(array("status" => "error", "status_code" => 400, "status_message" => "Une erreur s'est produite lors de l'ajout du medecin."));
         }
     } 
 }
@@ -93,12 +87,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
     // Vérifier le token JWT
     if (check_token()) {
         $data = json_decode(file_get_contents('php://input'), true);
-        $patientId = ltrim($_SERVER['PATH_INFO'], '/');
-        $singlePatient = getSinglePatient($patientId);
+        $medecinId = ltrim($_SERVER['PATH_INFO'], '/');
+        $singlemedecin = getSinglemedecin($medecinId);
 
-        if (!$singlePatient) {
+        if (!$singlemedecin) {
             http_response_code(404);
-            echo json_encode(['message' => 'Aucun patient trouvé']);
+            echo json_encode(['message' => 'Aucun medecin trouvé']);
         } else {
             $fields = '';
             $values = [];
@@ -113,16 +107,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
                 $values[] = $value;
             }
             $fields = rtrim($fields, ','); // Supprime la dernière virgule
-            $values[] = $patientId; // Ajoute l'ID du patient à la fin des valeurs
+            $values[] = $medecinId; // Ajoute l'ID du medecin à la fin des valeurs
 
-            $updatePatientQuery = $pdo->prepare("UPDATE patient SET $fields WHERE idPatient = ?");
-            $updatePatientQuery->execute($values);
+            $updatemedecinQuery = $pdo->prepare("UPDATE medecin SET $fields WHERE idMedecin = ?");
+            $updatemedecinQuery->execute($values);
 
-            if ($updatePatientQuery->errorCode() != 0) {
+            if ($updatemedecinQuery->errorCode() != 0) {
                 http_response_code(500);
             } else {
                 http_response_code(200);
-                echo json_encode(['message' => 'Patient modifié']);
+                echo json_encode(['message' => 'medecin modifié']);
             }
         }
     } 
@@ -133,24 +127,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     // Vérifier le token JWT
     if (check_token()) {
-        $patientId = ltrim($_SERVER['PATH_INFO'], '/');
-        $singlePatient = getSinglePatient($patientId);
+        $medecinId = ltrim($_SERVER['PATH_INFO'], '/');
+        $singlemedecin = getSinglemedecin($medecinId);
 
-        if (!$singlePatient) {
+        if (!$singlemedecin) {
             http_response_code(404);
-            echo json_encode(['message' => 'Aucun patient trouvé']);
+            echo json_encode(['message' => 'Aucun medecin trouvé']);
         } else {
-            //supprimer toutes les consultations du patient
-            $deleteConsultationsQuery = $pdo->prepare("DELETE FROM consultation WHERE idPatient = ?");
-            $deleteConsultationsQuery->execute([$patientId]);
-            $deletePatientQuery = $pdo->prepare("DELETE FROM patient WHERE idPatient = ?");
-            $deletePatientQuery->execute([$patientId]);
+            //supprimer toutes les consultations du medecin
+            $deleteConsultationsQuery = $pdo->prepare("DELETE FROM consultation WHERE idMedecin = ?");
+            $deleteConsultationsQuery->execute([$medecinId]);
+            $deletemedecinQuery = $pdo->prepare("DELETE FROM medecin WHERE idMedecin = ?");
+            $deletemedecinQuery->execute([$medecinId]);
 
-            if ($deletePatientQuery->errorCode() != 0) {
+            if ($deletemedecinQuery->errorCode() != 0) {
                 http_response_code(500);
             } else {
                 http_response_code(200);
-                echo json_encode(['message' => 'Patient supprimé']);
+                echo json_encode(['message' => 'medecin supprimé']);
             }
         }
     } 
