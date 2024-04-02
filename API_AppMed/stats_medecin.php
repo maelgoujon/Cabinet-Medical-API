@@ -45,6 +45,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         http_response_code(200);
         echo json_encode($dureeMedecin);
+    } else {
+        http_response_code(401);
+        echo json_encode(array("message" => "Accès refusé"));
     }
 
 }
