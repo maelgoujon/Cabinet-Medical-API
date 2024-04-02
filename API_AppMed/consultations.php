@@ -60,6 +60,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             http_response_code(200);
             echo json_encode($Consults);
         }
+    }else {
+        http_response_code(401);
+        echo json_encode(array("message" => "Accès refusé"));
     }
 }
 /******************* POST *******************/
@@ -102,6 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     } else {
         http_response_code(401);
+        echo json_encode(array("message" => "Accès refusé"));
     }
 }
 /******************* PATCH *******************/
@@ -149,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
         }
     } else {
         http_response_code(401);
-
+        echo json_encode(array("message" => "Accès refusé"));
     }
 } else {
     http_response_code(405);
@@ -177,6 +181,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
                 echo json_encode(['message' => 'Consultation supprimée']);
             }
         }
+    }else {
+        http_response_code(401);
+        echo json_encode(array("message" => "Accès refusé"));
     }
 } else {
     http_response_code(405);
