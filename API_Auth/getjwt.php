@@ -30,7 +30,7 @@ function get_jwt($login, $password)
         $payload = array(
             "login" => $login,
             "password" => $password,
-            "exp" => time() + 3600
+            "exp" => time() + (3600*24)
         );
 
         $headers = array(
