@@ -63,6 +63,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             http_response_code(200);
             echo json_encode($medecins);
         }
+    }else {
+        http_response_code(401);
+        echo json_encode(array("message" => "Accès refusé"));
     }
 }
 
@@ -95,6 +98,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             http_response_code(400);
             echo json_encode(array("status" => "error", "status_code" => 400, "status_message" => "Une erreur s'est produite lors de l'ajout du medecin."));
         }
+    }else {
+        http_response_code(401);
+        echo json_encode(array("message" => "Accès refusé"));
     }
 }
 /******************* PATCH *******************/
@@ -134,6 +140,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
                 echo json_encode(['message' => 'medecin modifié']);
             }
         }
+    }else {
+        http_response_code(401);
+        echo json_encode(array("message" => "Accès refusé"));
     }
 } else {
     http_response_code(405);
@@ -164,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
         }
     } else {
         http_response_code(401);
-        echo json_encode(['message' => 'Token invalide ou absent']);
+        echo json_encode(array("message" => "Accès refusé"));
     }
 } else {
     http_response_code(405);
