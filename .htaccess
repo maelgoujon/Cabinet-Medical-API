@@ -3,9 +3,9 @@ RewriteEngine on
 
 ### USAGERS/PATIENTS ###
 # rediriger /usagers/id vers le fichier usagers.php
-RewriteRule API_AppMed/usagers/([0-9]+)/?$ /API_AppMed/usagers.php/$1 [L]
+RewriteRule usagers/([0-9]+)/?$ /API_AppMed/usagers.php/$1 [L]
 # rediriger /usagers vers le fichier usagers.php
-RewriteRule API_AppMed/usagers/?$ /API_AppMed/usagers.php [L]
+RewriteRule usagers/?$ /API_AppMed/usagers.php [L]
 
 ### CONSULTATIONS ###
 # rediriger /consultations/id vers le fichier consultations.php

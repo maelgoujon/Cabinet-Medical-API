@@ -1,6 +1,6 @@
 <?php
 include '../Base/config.php';
-include '../API_Auth/check_token.php';
+include 'check_remote_jwt.php';
 try {
     $pdo = new PDO("mysql:host=$server;dbname=$db", $login, $mdp);
 } catch (PDOException $e) {
@@ -19,7 +19,21 @@ function getSinglePatient($id)
     return $singlePatient;
 }
 
-header('Content-Type: application/json');
+function check_jwt_ok()
+{
+    // Vérifier le token JWT dans Authorization avec la fonction check_remote_jwt
+    $headers = apache_request_headers(); // Get the request headers
+    header('Content-Type: application/json');
+    if (isset($headers['Authorization'])) { // Check if the Authorization header is set
+        $authorizationHeader = $headers['Authorization']; // Get the Authorization header
+        $headerValue = explode(' ', $authorizationHeader); // Split the header value
+
+        $token = $headerValue[1]; // Get the token from the header value
+
+        $response = check_remote_jwt($token);
+        return $response;
+    }
+}
 
 
 
@@ -27,13 +41,13 @@ header('Content-Type: application/json');
 /******************* GET *******************/
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Vérifier le token JWT
-    if (check_token()) {
+    if (check_jwt_ok()) {
         // Requête SQL pour récupérer la liste des patients
         $getPatientsQuery = $pdo->prepare("SELECT * FROM patient");
         $getPatientsQuery->execute();
         $patients = $getPatientsQuery->fetchAll(PDO::FETCH_ASSOC);
 
-        $id = isset ($_SERVER['PATH_INFO']) ? ltrim($_SERVER['PATH_INFO'], '/') : null; // Récupération de l'id depuis l'url
+        $id = isset($_SERVER['PATH_INFO']) ? ltrim($_SERVER['PATH_INFO'], '/') : null; // Récupération de l'id depuis l'url
 
         if ($id) {
             $singlePatient = getSinglePatient($id);
@@ -49,12 +63,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             http_response_code(200);
             echo json_encode($patients);
         }
+    } else {
+        http_response_code(401);
+        echo json_encode(array("message" => "Accès refusé"));
     }
 }
 /******************* POST *******************/
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Vérifier le token JWT
-    if (check_token()) {
+    if (check_jwt_ok()) {
         $linkpdo = new PDO("mysql:host=$server;dbname=$db", $login, $mdp);
         $linkpdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         // Recuperation des donnees du formulaire HTML
@@ -86,12 +103,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             http_response_code(400);
             echo json_encode(array("status" => "error", "status_code" => 400, "status_message" => "Une erreur s'est produite lors de l'ajout du patient."));
         }
-    } 
+    } else {
+        http_response_code(401);
+        echo json_encode(array("message" => "Accès refusé"));
+    }
 }
 /******************* PATCH *******************/
 if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
     // Vérifier le token JWT
-    if (check_token()) {
+    if (check_jwt_ok()) {
         $data = json_decode(file_get_contents('php://input'), true);
         $patientId = ltrim($_SERVER['PATH_INFO'], '/');
         $singlePatient = getSinglePatient($patientId);
@@ -108,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
             ];
             foreach ($data as $key => $value) {
                 // Utiliser la correspondance si elle existe
-                $column = isset ($columnMapping[$key]) ? $columnMapping[$key] : $key;
+                $column = isset($columnMapping[$key]) ? $columnMapping[$key] : $key;
                 $fields .= "$column = ?,";
                 $values[] = $value;
             }
@@ -125,14 +145,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
                 echo json_encode(['message' => 'Patient modifié']);
             }
         }
-    } 
-} else {
-    http_response_code(405);
+    } else {
+        http_response_code(401);
+        echo json_encode(array("message" => "Accès refusé"));
+    }
 }
 /******************* DELETE *******************/
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     // Vérifier le token JWT
-    if (check_token()) {
+    if (check_jwt_ok()) {
         $patientId = ltrim($_SERVER['PATH_INFO'], '/');
         $singlePatient = getSinglePatient($patientId);
 
@@ -153,7 +174,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
                 echo json_encode(['message' => 'Patient supprimé']);
             }
         }
-    } 
+    } else {
+        http_response_code(401);
+        echo json_encode(array("message" => "Accès refusé"));
+    }
 } else {
     http_response_code(405);
 }
