@@ -29,9 +29,10 @@ function check_jwt_ok()
         $headerValue = explode(' ', $authorizationHeader); // Split the header value
 
         $token = $headerValue[1]; // Get the token from the header value
-
         $response = check_remote_jwt($token);
         return $response;
+    } else {
+        return false;
     }
 }
 

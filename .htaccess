@@ -26,5 +26,5 @@ RewriteRule medecins/([0-9]+)/?$ /API_AppMed/medecins.php/$1 [L]
 RewriteRule medecins/?$ /API_AppMed/medecins.php [L]
 
 ### AUTHENTIFICATION ###
-# rediriger auth vers le fichier check_remote_jwt.php
-RewriteRule auth /API_AppMed/check_remote_jwt.php [L]
+# rediriger auth vers le fichier main_auth.php
+RewriteRule auth API_Auth/main_auth.php [L]

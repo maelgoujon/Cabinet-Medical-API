@@ -2,35 +2,34 @@
 
 require_once 'jwt_utils.php'; // Include the JWT utility functions
 
-function check_token()
-{
-    $config = require_once 'config.php'; // Load the configuration
+$config = require_once 'config.php'; // Load the configuration
 
-    $secret = $config['jwt_secret']; // Get the secret from the configuration
+$secret = $config['jwt_secret']; // Get the secret from the configuration
 
-    header('Content-Type: application/json');
-    if (isset($_GET['token'])) { // Check if the token is set in the URL
-        $encodedToken = $_GET['token']; // Get the encoded token from the URL
-        $token = urldecode($encodedToken); // Decode the token
+function check_token($jwt) {
+    $headers = apache_request_headers(); // Get the request headers
+
+    // Check if the Authorization header is set
+    if (isset($headers['Authorization'])) {
+        $authorizationHeader = $headers['Authorization']; // Get the Authorization header
+        $headerValue = explode(' ', $authorizationHeader); // Split the header value
+
+        $token = $headerValue[1]; // Get the token from the header value
         try {
-            $isValid = is_jwt_valid($token, $secret); // Check if the token is valid
-            if ($isValid) {
-                http_response_code(200);
-                echo json_encode(array("status" => "success", "status_code" => 200, "status_message" => "Token valide"));
+            $isValid = is_jwt_valid($token, $GLOBALS['secret']); // Check if the token is valid
+            if (!$isValid) {
+                echo json_encode(array("status" => "error", "status_code" => 401, "status_message" => "Token is invalid"));
+
             } else {
-                http_response_code(401);
-                echo json_encode(array("status" => "error", "status_code" => 401, "status_message" => "Token invalide ou expiré", "token" => $token));
+                echo json_encode(array("status" => "success", "status_code" => 200, "status_message" => "Token is valid", "data" => $token));
             }
         } catch (Exception $e) {
-            http_response_code(500);
-            echo json_encode(array("status" => "error", "status_code" => 500, "status_message" => "Erreur dans le token"));
+            echo json_encode(array("status" => "error", "status_code" => 401, "status_message" => "Token is invalid"));
+            
         }
     } else {
-        http_response_code(400);
-        echo json_encode(array("status" => "error", "status_code" => 400, "status_message" => "Token manquant"));
+        echo json_encode(array("status" => "error", "status_code" => 401, "status_message" => "Token is missing"));
+
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    check_token();
-}

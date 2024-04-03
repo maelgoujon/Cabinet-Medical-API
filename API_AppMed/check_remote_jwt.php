@@ -1,27 +1,32 @@
 <?php
-
 function check_remote_jwt($token)
 {
-    $encodedToken = urlencode($token); // Encode the token
-
-    $url = 'http://172.17.0.1:5050/API_Auth/check_token.php?token=' . $encodedToken;
+    $url = 'http://172.17.0.1:5050/API_Auth/login.php';
 
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Authorization: Bearer ' . $token
+    ));
     $result = curl_exec($ch);
 
     if (curl_error($ch)) {
-        http_response_code(401);
         curl_close($ch);
         return False;
     } else {
-        http_response_code(200);
         curl_close($ch);
-        return True;
+        $response = json_decode($result, true);
+        if (isset($response['status']) && $response['status'] == 'success') {
+            return True;
+        } else {
+            
+            return False;
+        }
     }
 }
 
 /*
+
 
 // if user is asking for GET method, get the token from the Authorization header
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -38,15 +43,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $response = check_remote_jwt($token);
 
         if ($response) {
-            echo json_encode(['message' => 'Token valide from check_remote_jwt']);
+            http_response_code(200);
+            
         } else {
             http_response_code(401);
-            echo json_encode(['message' => 'Token invalide from check_remote_jwt', 'Response' => $response, 'Token' => $token]);
         }
+    } else {
+        http_response_code(400);
     }
-} else {
-    http_response_code(401);
-    echo json_encode(['message' => 'Token manquant from check_remote_jwt']);
 }
 
+// if user is asking for POST method, check the user and password and send the token
 */
