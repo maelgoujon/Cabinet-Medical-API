@@ -29,9 +29,10 @@ function check_jwt_ok()
         $headerValue = explode(' ', $authorizationHeader); // Split the header value
 
         $token = $headerValue[1]; // Get the token from the header value
-
         $response = check_remote_jwt($token);
         return $response;
+    } else {
+        return false;
     }
 }
 
@@ -60,13 +61,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             http_response_code(200);
             echo json_encode($Consults);
         }
-    }else {
+    } else {
         http_response_code(401);
         echo json_encode(array("message" => "Accès refusé"));
     }
 }
+
 /******************* POST *******************/
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    echo json_encode(array("message" => "POST"));
     // Vérifier le token JWT
     if (check_jwt_ok()) {
         $linkpdo = new PDO("mysql:host=$server;dbname=$db", $login, $mdp);
@@ -155,8 +158,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
         http_response_code(401);
         echo json_encode(array("message" => "Accès refusé"));
     }
-} else {
-    http_response_code(405);
 }
 /******************* DELETE *******************/
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
@@ -181,7 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
                 echo json_encode(['message' => 'Consultation supprimée']);
             }
         }
-    }else {
+    } else {
         http_response_code(401);
         echo json_encode(array("message" => "Accès refusé"));
     }

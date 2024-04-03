@@ -39,8 +39,6 @@ function check_jwt_ok()
 
 /******************* GET *******************/
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-
-
     //si le token est valide
     if (check_jwt_ok()) {
         // Requête SQL pour récupérer la liste des medecins
@@ -71,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 }
 
 /******************* POST *******************/
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Vérifier le token JWT
     if (check_jwt_ok()) {
         $linkpdo = new PDO("mysql:host=$server;dbname=$db", $login, $mdp);
