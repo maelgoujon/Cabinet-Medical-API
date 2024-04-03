@@ -129,8 +129,6 @@ L'API pour la gestion d'un cabinet médical.
 - Entre25Et50: integer
 - PlusDe50: integer
 
-
-
 # Médecins [/medecins]
 
 ## Récupérer la liste des médecins [GET]
@@ -141,7 +139,14 @@ L'API pour la gestion d'un cabinet médical.
 ## Ajouter un médecin [POST]
 
 + Request (application/json)
-    + Attributes (Medecin)
+        
+        [
+            {
+                "civilite":"M.",
+                "nom":"Dupond",
+                "prenom":"Gérard"
+            }
+        ]
 
 + Response 201 (application/json)
     + Attributes (Success)
@@ -149,7 +154,12 @@ L'API pour la gestion d'un cabinet médical.
 ## Mettre à jour un médecin [PATCH]
 
 + Request (application/json)
-    + Attributes (Medecin)
+        
+        [
+            {
+                "nom":"Martin"
+            }
+        ]
 
 + Response 200 (application/json)
     + Attributes (Success)
@@ -180,7 +190,22 @@ L'API pour la gestion d'un cabinet médical.
 ## Ajouter un patient [POST]
 
 + Request (application/json)
-    + Attributes (Patient)
+    
+        [
+            {
+                "civilite":"M.",
+                "nom":"Dumond",
+                "prenom":"Armand",
+                "sexe":"H",
+                "adresse":"85, Square de la Couronne",
+                "code_postal":"91120",
+                "ville":"Palaiseau",
+                "date_nais":"14/05/1952",
+                "lieu_nais":"Nantes",
+                "num_secu":"112233445566778",
+                "id_medecin":"1"
+            }
+        ]
 
 + Response 201 (application/json)
     + Attributes (Success)
@@ -188,7 +213,15 @@ L'API pour la gestion d'un cabinet médical.
 ## Mettre à jour un patient [PATCH]
 
 + Request (application/json)
-    + Attributes (Patient)
+    
+        [
+            {
+                "adresse":"85, Square de la Couronne",
+                "code_postal":"91120",
+                "ville":"Palaiseau",
+                "id_medecin":"1"
+            }
+        ]
 
 + Response 200 (application/json)
     + Attributes (Success)
@@ -197,16 +230,6 @@ L'API pour la gestion d'un cabinet médical.
 
 + Response 200 (application/json)
     + Attributes (Success)
-    
-# Patient ID [/usagers/{id}]
-
-## Récupérer un patient par ID [GET]
-
-+ Parameters
-    + id (required, integer, `1`) ... L'identifiant du médecin à récupérer.
-
-+ Response 200 (application/json)
-    + Attributes (Patient)    
 
 # Consultations [/consultations]
 
@@ -218,7 +241,16 @@ L'API pour la gestion d'un cabinet médical.
 ## Ajouter une consultation [POST]
 
 + Request (application/json)
-    + Attributes (Consultation)
+    
+        [
+            {
+                "id_usager":"2",
+                "id_medecin":"8",
+                "date_consult":"12/10/24",
+                "heure_consult":"11:30",
+                "duree_consult":"30"
+            }
+        ]
 
 + Response 201 (application/json)
     + Attributes (Success)
@@ -226,7 +258,16 @@ L'API pour la gestion d'un cabinet médical.
 ## Mettre à jour une consultation [PATCH]
 
 + Request (application/json)
-    + Attributes (Consultation)
+    
+        [
+            {
+                "id_usager":"2",
+                "id_medecin":"8",
+                "date_consult":"12/10/24",
+                "heure_consult":"12:30",
+                "duree_consult":"45"
+            }
+        ]
 
 + Response 200 (application/json)
     + Attributes (Success)
@@ -235,16 +276,6 @@ L'API pour la gestion d'un cabinet médical.
 
 + Response 200 (application/json)
     + Attributes (Success)
-
-# Consultation ID [/consultations/{id}]
-
-## Récupérer un consultation par ID [GET]
-
-+ Parameters
-    + id (required, integer, `1`) ... L'identifiant du médecin à récupérer.
-
-+ Response 200 (application/json)
-    + Attributes (Consultation)
 
 # Statistiques Medecins [/stats_medecin]
 
@@ -286,12 +317,14 @@ L'API pour la gestion d'un cabinet médical.
 ## Obtenir un jeton JWT [POST]
 
 + Request (application/json)
-    + Body
+    
+        [
 
             {
-                "login": "string",
-                "mdp": "string"
+                "login":"secretaire1",
+                "mdp":"password1234!"
             }
+        ]
 
 + Response 200 (application/json)
     + Attributes (object)
