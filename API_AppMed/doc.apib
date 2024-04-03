@@ -1,0 +1,329 @@
+FORMAT: 1A
+HOST: http://127.0.0.1:5050/API_AppMed
+
+# Cabinet Médical API
+
+L'API pour la gestion d'un cabinet médical.
+
+# Data Structures
+
+## Medecin (object)
+- id: integer
+- Civilite: string
+- Nom: string
+- Prenom: string
+
+## Patient (object)
+- id: integer
+- Civilite: string
+- Prenom: string
+- Nom: string
+- Adresse: string
+- Ville: string
+- Code_postal: string
+- Date_de_naissance: string
+- Lieu_de_naissance: string
+- Numero_Securite_Sociale: string
+- idMedecin: integer
+
+## Consultation (object)
+- id: integer
+- idPatient: integer
+- idMedecin: integer
+- DateConsultation: string
+- Heure: string
+- Duree: string
+
+## Error (object)
+- message: string
+
+## Success (object)
+- status: string
+- status_code: integer
+- status_message: string
+
+## Empty (object)
+
+## NoContent (object)
+
+## Created (object)
+
+## Updated (object)
+
+## Deleted (object)
+
+## NotFound (object)
+
+## Unauthorized (object)
+
+## BadRequest (object)
+
+## InternalServerError (object)
+
+## MethodNotAllowed (object)
+
+## Forbidden (object)
+
+## NotAcceptable (object)
+
+## Conflict (object)
+
+## UnsupportedMediaType (object)
+
+## UnprocessableEntity (object)
+
+## NotImplemented (object)
+
+## Gone (object)
+
+## TooManyRequests (object)
+
+## ServiceUnavailable (object)
+
+## GatewayTimeout (object)
+
+## HttpVersionNotSupported (object)
+
+## VariantAlsoNegotiates (object)
+
+## InsufficientStorage (object)
+
+## LoopDetected (object)
+
+## BandwidthLimitExceeded (object)
+
+## NotExtended (object)
+
+## NetworkAuthenticationRequired (object)
+
+## NetworkReadTimeout (object)
+
+## NetworkConnectTimeout (object)
+
+## CheckpointExpired (object)
+
+## BlockedByWindowsParentalControls (object)
+
+## ClientClosedRequest (object)
+
+## UnavailableForLegalReasons (object)
+
+## RequestHeaderFieldsTooLarge (object)
+
+## RequestURITooLong (object)
+
+## NetworkConnectTimeoutError (object)
+
+## JWT (string)
+
+## DureeConsultation (object)
+- idMedecin: integer
+- Civilitemedecin: string
+- Prenom: string
+- Nom: string
+- DureeTotale: string
+
+## RepartitionUsagers (object)
+- Sexe: string
+- MoinsDe25: integer
+- Entre25Et50: integer
+- PlusDe50: integer
+
+
+
+# Médecins [/medecins]
+
+## Récupérer la liste des médecins [GET]
+
++ Response 200 (application/json)
+    + Attributes (array[Medecin])
+
+## Ajouter un médecin [POST]
+
++ Request (application/json)
+    + Attributes (Medecin)
+
++ Response 201 (application/json)
+    + Attributes (Success)
+
+## Mettre à jour un médecin [PATCH]
+
++ Request (application/json)
+    + Attributes (Medecin)
+
++ Response 200 (application/json)
+    + Attributes (Success)
+
+## Supprimer un médecin [DELETE]
+
++ Response 200 (application/json)
+    + Attributes (Success)
+
+# Medecin ID [/medecins/{id}]
+
+## Récupérer un médecin par ID [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... L'identifiant du médecin à récupérer.
+
++ Response 200 (application/json)
+    + Attributes (Medecin)
+
+
+# Patients [/patients]
+
+## Récupérer la liste des patients [GET]
+
++ Response 200 (application/json)
+    + Attributes (array[Patient])
+
+## Ajouter un patient [POST]
+
++ Request (application/json)
+    + Attributes (Patient)
+
++ Response 201 (application/json)
+    + Attributes (Success)
+
+## Mettre à jour un patient [PATCH]
+
++ Request (application/json)
+    + Attributes (Patient)
+
++ Response 200 (application/json)
+    + Attributes (Success)
+
+## Supprimer un patient [DELETE]
+
++ Response 200 (application/json)
+    + Attributes (Success)
+    
+# Patient ID [/usagers/{id}]
+
+## Récupérer un patient par ID [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... L'identifiant du médecin à récupérer.
+
++ Response 200 (application/json)
+    + Attributes (Patient)    
+
+# Consultations [/consultations]
+
+## Récupérer la liste des consultations [GET]
+
++ Response 200 (application/json)
+    + Attributes (array[Consultation])
+
+## Ajouter une consultation [POST]
+
++ Request (application/json)
+    + Attributes (Consultation)
+
++ Response 201 (application/json)
+    + Attributes (Success)
+
+## Mettre à jour une consultation [PATCH]
+
++ Request (application/json)
+    + Attributes (Consultation)
+
++ Response 200 (application/json)
+    + Attributes (Success)
+
+## Supprimer une consultation [DELETE]
+
++ Response 200 (application/json)
+    + Attributes (Success)
+
+# Consultation ID [/consultations/{id}]
+
+## Récupérer un consultation par ID [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... L'identifiant du médecin à récupérer.
+
++ Response 200 (application/json)
+    + Attributes (Consultation)
+
+# Statistiques Medecins [/stats_medecin]
+
+## Obtenir la durée totale des consultations par médecin [GET]
+
++ Response 200 (application/json)
+    + Attributes (array[DureeConsultation])
+    
+# Statistiques Usagers [/stats_usagers]
+
+## Répartition des usagers par sexe et âge [GET]
+
++ Response 200 (application/json)
+    + Attributes (array[RepartitionUsagers])
+
+
+# Fonctions utilitaires [/check_remote_jwt]
+
+## Vérification distante du jeton JWT [POST]
+
++ Request (application/json)
+    + Body
+
+            {
+                "token": "string"
+            }
+
++ Response 200 (application/json)
+    + Attributes (object)
+        - success: true
+
++ Response 401 (application/json)
+    + Attributes (object)
+        - success: false
+
+
+# Authentification [/login]
+
+## Obtenir un jeton JWT [POST]
+
++ Request (application/json)
+    + Body
+
+            {
+                "login": "string",
+                "mdp": "string"
+            }
+
++ Response 200 (application/json)
+    + Attributes (object)
+        - status: "success"
+        - status_code: 200
+        - status_message: "Authentification OK"
+        - data: "string" (JWT)
+
++ Response 400 (application/json)
+    + Attributes (object)
+        - status: "error"
+        - status_code: 400
+        - status_message: "Login ou mot de passe incorrect"
+
+
+# Validation de l'Authentification [/auth]
+
+La validation de l'authentification consiste à vérifier si un jeton JWT est valide.
+
+## Validation de l'Authentification [GET]
+
++ Response 200 (application/json)
+    + Attributes (Success)
+        - jwt: Le jeton JWT valide
+        - success: true
+        - status: "success"
+        - status_code: 200
+        - status_message: "Authentification réussie"
+
++ Response 401 (application/json)
+    + Attributes (Error)
+        - message: "Erreur d'authentification : jeton invalide ou manquant"
+        - success: false
+        - status: "error"
+        - status_code: 401
