@@ -14,6 +14,7 @@ Content-Type: application/json
 ```
 ## Utilisateur non connecté [/]
 ## Utilisateur non connecté [GET/POST/PUT/DELETE]
+### Si l'utilisateur fait des requêtes sans être connecté
 + Response 401 (application/json)
     + Attributes (Unauthorized)
 
@@ -44,14 +45,7 @@ Content-Type: application/json
         - status_code: 400
         - status_message: "Login ou mot de passe incorrect"
 
-
-# Validation de l'Authentification [/auth]
-
-Vérifier si un jeton JWT est valide.
-Récupère le jeton depuis le Bearer Token.
-
-## Validation de l'Authentification [GET]
-
+## Vérification du token JWT à partir du Bearer Token [GET]
 + Response 200 (application/json)
     + Attributes (Success)
         - jwt: Le jeton JWT valide
