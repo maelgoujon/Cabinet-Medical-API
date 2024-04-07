@@ -1,7 +1,7 @@
 <?php
 function check_remote_jwt($token)
 {
-    $url = 'http://172.17.0.1:5050/API_Auth/login.php';
+    $url = 'https://goujondardetapi-auth.alwaysdata.net/auth';
 
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

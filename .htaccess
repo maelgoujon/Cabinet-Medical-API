@@ -3,27 +3,27 @@ RewriteEngine on
 
 ### USAGERS/PATIENTS ###
 # rediriger /usagers/id vers le fichier usagers.php
-RewriteRule usagers/([0-9]+)/?$ /API_AppMed/usagers.php/$1 [L]
+RewriteRule usagers/([0-9]+)/?$ API_AppMed/usagers.php/$1 [L]
 # rediriger /usagers vers le fichier usagers.php
-RewriteRule usagers/?$ /API_AppMed/usagers.php [L]
+RewriteRule usagers/?$ API_AppMed/usagers.php [L]
 
 ### CONSULTATIONS ###
 # rediriger /consultations/id vers le fichier consultations.php
-RewriteRule consultations/([0-9]+)/?$ /API_AppMed/consultations.php/$1 [L]
+RewriteRule consultations/([0-9]+)/?$ API_AppMed/consultations.php/$1 [L]
 # rediriger /consultations vers le fichier consultations.php
-RewriteRule consultations/?$ /API_AppMed/consultations.php [L]
+RewriteRule consultations/?$ API_AppMed/consultations.php [L]
 
 ### STATISTIQUES ###
 # rediriger /stats/medecins vers le fichier stats_medecins.php
-RewriteRule stats/medecins/?$ /API_AppMed/stats_medecin.php [L]
+RewriteRule stats/medecins/?$ API_AppMed/stats_medecin.php [L]
 # rediriger /stats/usagers vers le fichier stats_usagers.php
-RewriteRule stats/usagers/?$ /API_AppMed/stats_usagers.php [L]
+RewriteRule stats/usagers/?$ API_AppMed/stats_usagers.php [L]
 
 ### MEDECINS ###
 # rediriger /medecins/id vers le fichier medecins.php
-RewriteRule medecins/([0-9]+)/?$ /API_AppMed/medecins.php/$1 [L]
+RewriteRule medecins/([0-9]+)/?$ API_AppMed/medecins.php/$1 [L]
 # rediriger /medecins vers le fichier medecins.php
-RewriteRule medecins/?$ /API_AppMed/medecins.php [L]
+RewriteRule medecins/?$ API_AppMed/medecins.php [L]
 
 ### AUTHENTIFICATION ###
 # rediriger auth vers le fichier main_auth.php

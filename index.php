@@ -37,6 +37,7 @@ if (isset($_SESSION["jwt"])) {
 
 <body>
     <div class="container">
+        <button href="/API_Auth/getjwt.php" class="btn btn-primary" onclick="window.location.href='/API_Auth/getjwt.php'">Générer un jeton JWT</button>
         <br>
         <p class="h3 text-primary font-weight-bold text-center">Bienvenue sur l'espace de gestion de vôtre cabinet
             médical !</p>

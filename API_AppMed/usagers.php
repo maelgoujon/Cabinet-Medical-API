@@ -1,5 +1,5 @@
 <?php
-include '../Base/config.php';
+include 'config.php';
 include 'check_remote_jwt.php';
 try {
     $pdo = new PDO("mysql:host=$server;dbname=$db", $login, $mdp);
