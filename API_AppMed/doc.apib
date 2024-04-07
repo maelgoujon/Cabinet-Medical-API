@@ -3,132 +3,73 @@ HOST: http://127.0.0.1:5050/API_AppMed
 
 # Cabinet Médical API
 
-L'API pour la gestion d'un cabinet médical.
+API pour la gestion d'un cabinet médical.
 
-# Data Structures
+# Group Paramètres globaux
 
-## Medecin (object)
-- id: integer
-- Civilite: string
-- Nom: string
-- Prenom: string
 
-## Patient (object)
-- id: integer
-- Civilite: string
-- Prenom: string
-- Nom: string
-- Adresse: string
-- Ville: string
-- Code_postal: string
-- Date_de_naissance: string
-- Lieu_de_naissance: string
-- Numero_Securite_Sociale: string
-- idMedecin: integer
+### Header
+```
+Content-Type: application/json
+```
+## Utilisateur non connecté [/]
+## Utilisateur non connecté [GET/POST/PUT/DELETE]
++ Response 401 (application/json)
+    + Attributes (Unauthorized)
 
-## Consultation (object)
-- id: integer
-- idPatient: integer
-- idMedecin: integer
-- DateConsultation: string
-- Heure: string
-- Duree: string
+# Group Authentification 
 
-## Error (object)
-- message: string
+# Authentification [/auth]
 
-## Success (object)
-- status: string
-- status_code: integer
-- status_message: string
+## Obtenir un jeton JWT [POST]
 
-## Empty (object)
++ Request (application/json)
+    
 
-## NoContent (object)
+            {
+                "login":"secretaire1",
+                "mdp":"password1234!"
+            }
 
-## Created (object)
++ Response 200 (application/json)
+    + Attributes (object)
+        - status: "success"
+        - status_code: 200
+        - status_message: "Authentification OK"
+        - data: "string" (JWT)
 
-## Updated (object)
++ Response 400 (application/json)
+    + Attributes (object)
+        - status: "error"
+        - status_code: 400
+        - status_message: "Login ou mot de passe incorrect"
 
-## Deleted (object)
 
-## NotFound (object)
+# Validation de l'Authentification [/auth]
 
-## Unauthorized (object)
+Vérifier si un jeton JWT est valide.
+Récupère le jeton depuis le Bearer Token.
 
-## BadRequest (object)
+## Validation de l'Authentification [GET]
 
-## InternalServerError (object)
++ Response 200 (application/json)
+    + Attributes (Success)
+        - jwt: Le jeton JWT valide
+        - success: true
+        - status: "success"
+        - status_code: 200
+        - status_message: "Authentification réussie"
 
-## MethodNotAllowed (object)
++ Response 401 (application/json)
+    + Attributes (Error)
+        - message: "Erreur d'authentification : jeton invalide ou manquant"
+        - success: false
+        - status: "error"
+        - status_code: 401
 
-## Forbidden (object)
 
-## NotAcceptable (object)
 
-## Conflict (object)
-
-## UnsupportedMediaType (object)
-
-## UnprocessableEntity (object)
-
-## NotImplemented (object)
-
-## Gone (object)
-
-## TooManyRequests (object)
-
-## ServiceUnavailable (object)
-
-## GatewayTimeout (object)
-
-## HttpVersionNotSupported (object)
-
-## VariantAlsoNegotiates (object)
-
-## InsufficientStorage (object)
-
-## LoopDetected (object)
-
-## BandwidthLimitExceeded (object)
-
-## NotExtended (object)
-
-## NetworkAuthenticationRequired (object)
-
-## NetworkReadTimeout (object)
-
-## NetworkConnectTimeout (object)
-
-## CheckpointExpired (object)
-
-## BlockedByWindowsParentalControls (object)
-
-## ClientClosedRequest (object)
-
-## UnavailableForLegalReasons (object)
-
-## RequestHeaderFieldsTooLarge (object)
-
-## RequestURITooLong (object)
-
-## NetworkConnectTimeoutError (object)
-
-## JWT (string)
-
-## DureeConsultation (object)
-- idMedecin: integer
-- Civilitemedecin: string
-- Prenom: string
-- Nom: string
-- DureeTotale: string
-
-## RepartitionUsagers (object)
-- Sexe: string
-- MoinsDe25: integer
-- Entre25Et50: integer
-- PlusDe50: integer
-
+# Group Médecins
 # Médecins [/medecins]
 
 ## Récupérer la liste des médecins [GET]
@@ -179,8 +120,8 @@ L'API pour la gestion d'un cabinet médical.
 + Response 200 (application/json)
     + Attributes (Medecin)
 
-
-# Patients [/patients]
+# Group Patients
+# Patients [/usagers]
 
 ## Récupérer la liste des patients [GET]
 
@@ -230,7 +171,20 @@ L'API pour la gestion d'un cabinet médical.
 
 + Response 200 (application/json)
     + Attributes (Success)
+    
+# Patient ID [/usagers/{id}]
 
+## Récupérer un patient par ID [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... L'identifiant du patient à récupérer.
+
++ Response 200 (application/json)
+    + Attributes (Patient)
+
+
+
+# Group Consultations
 # Consultations [/consultations]
 
 ## Récupérer la liste des consultations [GET]
@@ -312,51 +266,127 @@ L'API pour la gestion d'un cabinet médical.
         - success: false
 
 
-# Authentification [/login]
+# Data Structures
 
-## Obtenir un jeton JWT [POST]
+## Medecin (object)
+- id: integer
+- Civilite: string
+- Nom: string
+- Prenom: string
 
-+ Request (application/json)
-    
-        [
+## Patient (object)
+- id: integer
+- Civilite: string
+- Prenom: string
+- Nom: string
+- Adresse: string
+- Ville: string
+- Code_postal: string
+- Date_de_naissance: string
+- Lieu_de_naissance: string
+- Numero_Securite_Sociale: string
+- idMedecin: integer
 
-            {
-                "login":"secretaire1",
-                "mdp":"password1234!"
-            }
-        ]
+## Consultation (object)
+- id: integer
+- idPatient: integer
+- idMedecin: integer
+- DateConsultation: string
+- Heure: string
+- Duree: string
 
-+ Response 200 (application/json)
-    + Attributes (object)
-        - status: "success"
-        - status_code: 200
-        - status_message: "Authentification OK"
-        - data: "string" (JWT)
+## Error (object)
+- message: string
 
-+ Response 400 (application/json)
-    + Attributes (object)
-        - status: "error"
-        - status_code: 400
-        - status_message: "Login ou mot de passe incorrect"
+## Success (object)
+- status: string
+- status_code: integer
+- status_message: string
 
+## Empty (object)
 
-# Validation de l'Authentification [/auth]
+## NoContent (object)
 
-La validation de l'authentification consiste à vérifier si un jeton JWT est valide.
+## Created (object)
 
-## Validation de l'Authentification [GET]
+## Updated (object)
 
-+ Response 200 (application/json)
-    + Attributes (Success)
-        - jwt: Le jeton JWT valide
-        - success: true
-        - status: "success"
-        - status_code: 200
-        - status_message: "Authentification réussie"
+## Deleted (object)
 
-+ Response 401 (application/json)
-    + Attributes (Error)
-        - message: "Erreur d'authentification : jeton invalide ou manquant"
-        - success: false
-        - status: "error"
-        - status_code: 401
+## NotFound (object)
+
+## Unauthorized (object)
+- message: Accès refusé
+
+## BadRequest (object)
+
+## InternalServerError (object)
+
+## MethodNotAllowed (object)
+
+## Forbidden (object)
+
+## NotAcceptable (object)
+
+## Conflict (object)
+
+## UnsupportedMediaType (object)
+
+## UnprocessableEntity (object)
+
+## NotImplemented (object)
+
+## Gone (object)
+
+## TooManyRequests (object)
+
+## ServiceUnavailable (object)
+
+## GatewayTimeout (object)
+
+## HttpVersionNotSupported (object)
+
+## VariantAlsoNegotiates (object)
+
+## InsufficientStorage (object)
+
+## LoopDetected (object)
+
+## BandwidthLimitExceeded (object)
+
+## NotExtended (object)
+
+## NetworkAuthenticationRequired (object)
+
+## NetworkReadTimeout (object)
+
+## NetworkConnectTimeout (object)
+
+## CheckpointExpired (object)
+
+## BlockedByWindowsParentalControls (object)
+
+## ClientClosedRequest (object)
+
+## UnavailableForLegalReasons (object)
+
+## RequestHeaderFieldsTooLarge (object)
+
+## RequestURITooLong (object)
+
+## NetworkConnectTimeoutError (object)
+
+## JWT (string)
+
+## DureeConsultation (object)
+- idMedecin: integer
+- Civilitemedecin: string
+- Prenom: string
+- Nom: string
+- DureeTotale: string
+
+## RepartitionUsagers (object)
+- Sexe: string
+- MoinsDe25: integer
+- Entre25Et50: integer
+- PlusDe50: integer
